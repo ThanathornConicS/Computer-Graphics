@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\pch">
+      <UniqueIdentifier>{b5fabadf-0fe7-41ff-97b7-6eebcadd5f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shader">
+      <UniqueIdentifier>{fc96a375-880a-41e0-afd5-59840fbd031c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Log">
+      <UniqueIdentifier>{c21a4192-21bf-422f-98ae-fc589896ab33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Imgui">
+      <UniqueIdentifier>{70e52187-170e-45fe-8ee5-68a8891e0343}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG">
+      <UniqueIdentifier>{ba23b245-afeb-4e1c-9131-8b6db581848c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Affine">
+      <UniqueIdentifier>{61f364f9-6a3d-4fec-aea5-a520675ab463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Camera">
+      <UniqueIdentifier>{5dfcb967-0cc1-4eff-85e3-14f358078406}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Coordinate">
+      <UniqueIdentifier>{c2181a6c-cb9f-4cc7-8223-bdf2a5c500a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Main">
+      <UniqueIdentifier>{0589615b-e457-410f-bfa5-c2d809a99531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL">
+      <UniqueIdentifier>{f43a9267-dc70-457b-b26b-9cc19475e823}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\Window">
+      <UniqueIdentifier>{02765212-b8d1-409d-8c73-27ec33bdbf22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OpenGL\ImGui_Impl">
+      <UniqueIdentifier>{e1bb837d-44db-4668-a346-729260ff0e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Mesh">
+      <UniqueIdentifier>{92a8e2da-fdc7-4f4a-ab2b-6328a6f4f093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\ShaderLoader">
+      <UniqueIdentifier>{c373265a-25b5-4d9d-b86a-fb6e57201bd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImageLoader">
+      <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp">
+      <Filter>CG\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Resource Files\pch</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Resource Files\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hcoord.cpp">
+      <Filter>CG\Coordinate</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Affine.cpp">
+      <Filter>CG\Affine</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_demo.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_tables.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_widgets.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\imguiLayer.cpp">
+      <Filter>Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Window.cpp">
+      <Filter>OpenGL\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_glfw.cpp">
+      <Filter>OpenGL\ImGui_Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\backends\imgui_impl_opengl3.cpp">
+      <Filter>OpenGL\ImGui_Impl</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshRendering.cpp">
+      <Filter>CG\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CustomMesh.cpp">
+      <Filter>CG\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>CG\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Shader.cpp">
+      <Filter>CG\ShaderLoader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>Resource Files\pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>Resource Files\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Utilities.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Hcoord.h">
+      <Filter>CG\Coordinate</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Affine.h">
+      <Filter>CG\Affine</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_rectpack.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_textedit.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imstb_truetype.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\imguiLayer.h">
+      <Filter>Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Window.h">
+      <Filter>OpenGL\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_glfw.h">
+      <Filter>OpenGL\ImGui_Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\backends\imgui_impl_opengl3.h">
+      <Filter>OpenGL\ImGui_Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshRendering.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Mesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CubeMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MiscFunc.h">
+      <Filter>CG</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\CustomMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>CG\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\QuadMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Shader.h">
+      <Filter>CG\ShaderLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Resources\stb_image\stb_image.h">
+      <Filter>ImageLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Resources\stb_image\stb_image_resize.h">
+      <Filter>ImageLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Resources\stb_image\stb_image_write.h">
+      <Filter>ImageLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\SphereMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\fragmentShader.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\hdrFragment.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\hdrVertex.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\vertexShader.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\fragmentUI.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\vertexUI.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+  </ItemGroup>
+</Project>
