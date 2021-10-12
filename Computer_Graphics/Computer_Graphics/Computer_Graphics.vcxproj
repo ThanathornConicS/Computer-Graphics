@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_glfw.cpp" />
@@ -157,17 +158,17 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Source\Affine.cpp" />
-    <ClCompile Include="Source\CustomMesh.cpp" />
     <ClCompile Include="Source\Hcoord.cpp" />
     <ClCompile Include="Source\imguiLayer.cpp" />
     <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\MeshRendering.cpp" />
     <ClCompile Include="Source\Window.cpp" />
+    <ClCompile Include="Source\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Resources\stb_image\stb_image.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
+    <ClInclude Include="Source\Model.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="imgui\backends\imgui_impl_glfw.h" />
@@ -182,16 +183,15 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\Affine.h" />
     <ClInclude Include="Source\CubeMesh.h" />
-    <ClInclude Include="Source\CustomMesh.h" />
     <ClInclude Include="Source\Hcoord.h" />
     <ClInclude Include="Source\imguiLayer.h" />
     <ClInclude Include="Source\Mesh.h" />
-    <ClInclude Include="Source\MeshRendering.h" />
     <ClInclude Include="Source\MiscFunc.h" />
     <ClInclude Include="Source\QuadMesh.h" />
     <ClInclude Include="Source\SphereMesh.h" />
     <ClInclude Include="Source\Utilities.h" />
     <ClInclude Include="Source\Window.h" />
+    <ClInclude Include="Source\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag" />

@@ -50,6 +50,15 @@
     <Filter Include="ImageLoader">
       <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CG\AssetsLoader">
+      <UniqueIdentifier>{21ffb0aa-9305-4665-8a94-c2b99faee19b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\AssetsLoader\TextureLoader">
+      <UniqueIdentifier>{09971883-0caa-4b72-a842-b73906df6738}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\AssetsLoader\ModelLoader">
+      <UniqueIdentifier>{26d006cf-86dd-4664-a7aa-bca2ac060d64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -94,17 +103,17 @@
     <ClCompile Include="imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>OpenGL\ImGui_Impl</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MeshRendering.cpp">
-      <Filter>CG\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\CustomMesh.cpp">
-      <Filter>CG\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Camera.cpp">
       <Filter>CG\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shader.cpp">
       <Filter>CG\ShaderLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Texture.cpp">
+      <Filter>CG\AssetsLoader\TextureLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Model.cpp">
+      <Filter>CG\AssetsLoader\ModelLoader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,9 +162,6 @@
     <ClInclude Include="imgui\backends\imgui_impl_opengl3.h">
       <Filter>OpenGL\ImGui_Impl</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MeshRendering.h">
-      <Filter>CG\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Mesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
@@ -164,9 +170,6 @@
     </ClInclude>
     <ClInclude Include="Source\MiscFunc.h">
       <Filter>CG</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\CustomMesh.h">
-      <Filter>CG\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="Source\Camera.h">
       <Filter>CG\Camera</Filter>
@@ -188,6 +191,12 @@
     </ClInclude>
     <ClInclude Include="Source\SphereMesh.h">
       <Filter>CG\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Texture.h">
+      <Filter>CG\AssetsLoader\TextureLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Model.h">
+      <Filter>CG\AssetsLoader\ModelLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
