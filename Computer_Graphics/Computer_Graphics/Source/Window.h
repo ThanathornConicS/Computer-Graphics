@@ -11,7 +11,7 @@
 static const int width = 1000;
 static const int height = 1000;
 static const char* name = "Computer_Graphics";
-static const int xpos = 100;
+static const int xpos = 800;
 static const int ypos = 100;
 
 class Window 

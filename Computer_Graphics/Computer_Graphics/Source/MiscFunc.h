@@ -471,13 +471,22 @@ inline void Run(void)
         if (afterTimeSnapshot - beforeTimeSnapshot > 6.0) 
         {
             L_SYSTEM_WARN("You haven't found it yet??");
+            Sleep(1000);
+            L_SYSTEM_WARN("Too bad. Try that again later...");
+            Sleep(1000);
+            L_SYSTEM_WARN("See ya");
+            Sleep(1000);
             break;
         }
 
         if(CheckCursor())
         {
-            L_SYSTEM_INFO("You found the object!!");
-            L_SYSTEM_TRACE("You found the object within {0} seconds", afterTimeSnapshot - beforeTimeSnapshot);
+            L_SYSTEM_WARN("You found it!!");
+            Sleep(1000);
+            L_SYSTEM_WARN("You found the object within {0} seconds", afterTimeSnapshot - beforeTimeSnapshot);
+            Sleep(1000);
+            L_SYSTEM_WARN("See ya");
+            Sleep(1000);
             break;
         }
 

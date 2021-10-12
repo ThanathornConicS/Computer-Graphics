@@ -34,8 +34,6 @@ int main(int argc, char* argv[])
 
     Run();
 
-    Sleep(2000);
-
     L_SYSTEM_INFO("Closing window...");
     L_SYSTEM_INFO("System Shutdown");
     imgui_layer.Terminate();
