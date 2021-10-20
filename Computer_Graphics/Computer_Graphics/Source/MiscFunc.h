@@ -11,6 +11,8 @@
 
 #include "CubeMesh.h"
 #include "QuadMesh.h"
+#include "Model.h"
+#include "Texture.h"
 #include "Shader.h"
 
 struct Time
@@ -33,10 +35,6 @@ const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 1000;
 Time sys_time;
 
-bool hdr = true;
-bool hdrKeyPressed = false;
-float exposure = 0.2f;
-
 ImguiLayer imgui_layer;
 
 // camera
@@ -45,12 +43,7 @@ float lastX = (float)SCREEN_WIDTH / 2.0;
 float lastY = (float)SCREEN_HEIGHT / 2.0;
 bool firstMouse = true;
 
-CubeMesh cubeMesh;
-QuadMesh quadMesh;
-const int MAX_OBJECT = 20;
-
-double beforeTimeSnapshot;
-double afterTimeSnapshot;
+Model testModel;
 
 void DisplayInfo();
 
@@ -102,6 +95,15 @@ inline void ProcessInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboard(FORWARD, sys_time.deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboard(BACKWARD, sys_time.deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboard(LEFT, sys_time.deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboard(RIGHT, sys_time.deltaTime);
 }
 
 inline bool CheckCursor() 
@@ -132,8 +134,14 @@ inline void Run(void)
     imgui_layer.SetFunction(DisplayInfo);
 
     Shader normalShader("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
-    Shader hdrShader("Shader/hdrVertex.vert", "Shader/hdrFragment.frag");
-    Shader uiShader("Shader/vertexUI.vert", "Shader/fragmentUI.frag");
+
+    Texture ahegao;
+    uint32_t aheTexture = ahegao.LoadTexture("Assets/Textures/Ahegaopng.png", true);
+
+    //testModel.ImportModel("Assets/Models/cube.obj");
+    testModel.ImportModel("Assets/Models/male/MaleLow.obj");
+
+    normalShader.Use();
 
     do
     {
@@ -158,7 +166,7 @@ inline void Run(void)
         ProcessInput(sysWin->GetWindow());
 
         // clear the screen
-        glClearColor(0.7f, 0.4f, 0.6f, 0);
+        glClearColor(0.4f, 0.1f, 0.3f, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         /* Draw Begin */
@@ -167,6 +175,25 @@ inline void Run(void)
         imgui_layer.Render(sysWindowSize.first, sysWindowSize.second);
         imgui_layer.GUI_End();
 
+        // view/projection transformations
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = camera.GetViewMatrix();
+        normalShader.SetMat4("projection", projection);
+        normalShader.SetMat4("view", view);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, aheTexture);
+
+        // render the loaded model
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f)); // translate it down so it's at the center of the scene
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
+        normalShader.SetMat4("model", model);
+        normalShader.SetBool("inverse_normals", false);
+        testModel.Render();
+
+        glBindVertexArray(0);
+         
         /* Draw End */
 
         // swap in the back buffer

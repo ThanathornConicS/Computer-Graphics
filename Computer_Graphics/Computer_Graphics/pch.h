@@ -18,4 +18,6 @@
 #include "Log.h"
 
 #define _CRTDBG_MAP_ALLOC //to get more details
+//#define STB_IMAGE_IMPLEMENTATION
+
 #define PI 2 * acos(0.0f)

@@ -43,7 +43,6 @@ struct QuadMesh
         }
         glBindVertexArray(quadVAO);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        glBindVertexArray(0);
     }
 
 private:
