@@ -198,6 +198,9 @@
     <ClInclude Include="Source\Model.h">
       <Filter>CG\AssetsLoader\ModelLoader</Filter>
     </ClInclude>
+    <ClInclude Include="Source\RayQuadMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
@@ -216,6 +219,12 @@
       <Filter>Resource Files\Shader</Filter>
     </None>
     <None Include="Shader\vertexUI.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\rayMarch.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\rayMarch.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>

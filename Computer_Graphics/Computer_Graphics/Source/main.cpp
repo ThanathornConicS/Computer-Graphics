@@ -29,10 +29,6 @@ int main(int argc, char* argv[])
     glfwSetCursorPosCallback(sysWin->GetWindow(), CursorPosCallback);
     glfwSetScrollCallback(sysWin->GetWindow(), MouseScrollCallback);
 
-    // Prepare Shader
-    //progID = LoadShaders("vertexShader.vs", "fragmentShader.fs");
-    //glUseProgram(progID);
-
     Run();
 
     L_SYSTEM_INFO("Closing window...");

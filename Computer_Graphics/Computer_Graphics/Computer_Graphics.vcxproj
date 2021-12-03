@@ -169,6 +169,7 @@
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
     <ClInclude Include="Source\Model.h" />
+    <ClInclude Include="Source\RayQuadMesh.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="imgui\backends\imgui_impl_glfw.h" />
@@ -198,6 +199,8 @@
     <None Include="Shader\fragmentUI.frag" />
     <None Include="Shader\hdrFragment.frag" />
     <None Include="Shader\hdrVertex.vert" />
+    <None Include="Shader\rayMarch.frag" />
+    <None Include="Shader\rayMarch.vert" />
     <None Include="Shader\vertexShader.vert" />
     <None Include="Shader\vertexUI.vert" />
   </ItemGroup>

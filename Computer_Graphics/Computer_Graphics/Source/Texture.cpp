@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Texture.h"
 
-Texture::Texture(void)
-    :m_textureID(0)
-{}
+//Texture::Texture(void)
+//    :m_textureID(0)
+//{}
 Texture::Texture(const char* filepath, bool enableGamma)
     :m_textureID(0)
 {
-    LoadTexture(filepath, enableGamma);
+    m_textureID = LoadTexture(filepath, enableGamma);
 }
 
 uint32_t Texture::LoadTexture(const char* filepath, bool enableGamma)
@@ -17,6 +17,8 @@ uint32_t Texture::LoadTexture(const char* filepath, bool enableGamma)
     unsigned char* data = stbi_load(filepath, &width, &height, &nrComponents, 0);
     if (data)
     {
+        L_SYSTEM_TRACE("Texture: Loading {0}", filepath);
+
         GLenum internalFormat;
         GLenum dataFormat;
         if (nrComponents == 1)

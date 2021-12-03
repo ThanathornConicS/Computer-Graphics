@@ -9,10 +9,7 @@
 
 #include "Camera.h"
 
-#include "CubeMesh.h"
-#include "QuadMesh.h"
-#include "Model.h"
-#include "Texture.h"
+#include "RayQuadMesh.h"
 #include "Shader.h"
 
 struct Time
@@ -42,8 +39,6 @@ Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 float lastX = (float)SCREEN_WIDTH / 2.0;
 float lastY = (float)SCREEN_HEIGHT / 2.0;
 bool firstMouse = true;
-
-Model testModel;
 
 void DisplayInfo();
 
@@ -127,21 +122,19 @@ inline void Run(void)
     std::pair<int, int> sysWindowSize = sysWin->GetWindowSize();
 
     sys_time.time_last = glfwGetTime();
+
     imgui_layer = ImguiLayer(sysWindowSize.first, sysWindowSize.second, sysWin->GetWindow());
-
     imgui_layer.Init();
-
     imgui_layer.SetFunction(DisplayInfo);
 
-    Shader normalShader("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
+    Shader rayMarchShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
 
-    Texture ahegao;
-    uint32_t aheTexture = ahegao.LoadTexture("Assets/Textures/Ahegaopng.png", true);
+    rayMarchShader.Use();
 
-    //testModel.ImportModel("Assets/Models/cube.obj");
-    testModel.ImportModel("Assets/Models/male/MaleLow.obj");
+    RayQuadMesh rayquad;
+    rayquad.GenVertexObject();
 
-    normalShader.Use();
+    float rotRate = 5.0f;
 
     do
     {
@@ -175,31 +168,19 @@ inline void Run(void)
         imgui_layer.Render(sysWindowSize.first, sysWindowSize.second);
         imgui_layer.GUI_End();
 
-        // view/projection transformations
-        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-        glm::mat4 view = camera.GetViewMatrix();
-        normalShader.SetMat4("projection", projection);
-        normalShader.SetMat4("view", view);
+        rayMarchShader.SetFloat("SystemTime", sys_time.current_time);
+        rayMarchShader.SetFloat("rotateRate", cos(rotRate));
+        rayMarchShader.SetFloat("zoom", 2.5f);
+        rayquad.Render();
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, aheTexture);
-
-        // render the loaded model
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, -3.0f)); // translate it down so it's at the center of the scene
-        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));	// it's a bit too big for our scene, so scale it down
-        normalShader.SetMat4("model", model);
-        normalShader.SetBool("inverse_normals", false);
-        testModel.Render();
-
-        glBindVertexArray(0);
-         
         /* Draw End */
 
         // swap in the back buffer
         glfwSwapBuffers(sysWin->GetWindow());
         glfwPollEvents();
         sys_time.current_time += sys_time.deltaTime;
+
+        rotRate += 0.001f;
 
     } while (glfwGetKey(sysWin->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(sysWin->GetWindow()) == 0);
 
