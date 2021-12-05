@@ -1,5 +1,8 @@
 #version 330 core
 
+// AA
+const int AA = 4;
+
 // Ray Marching
 const int MAX_STEPS = 128;
 const float MIN_DIST = 0.0;
@@ -30,36 +33,66 @@ out vec4 fragColor;
 
 uniform float SystemTime;
 uniform vec2 SystemResolution;
-uniform lowp vec3 Camera_pos;
+uniform vec3 Eye;
 uniform lowp vec2 Mouse_delta;
 
 uniform float rotateRate;
 uniform float zoom;
 
-// polynomial smooth min 1 (k=0.1)
-float smin( float a, float b, float k )
+// SDF Operators
+float smin( float a, float b, float k )  // polynomial smooth min 1 (k=0.1)
 {
+    if(k == 0) k = 0.1;
     float h = clamp( 0.5+0.5*(b-a)/k, 0.0, 1.0 );
     return mix( b, a, h ) - k*h*(1.0-h);
 }
+float intersectSDF(float distA, float distB)
+{
+    return max(distA, distB);
+}
+float unionSDF(float distA, float distB)
+{
+    return min(distA, distB);
+}
+float differenceSDF(float distA, float distB)
+{
+    return max(distA, -distB);
+}
 
+// Primitive SDF
 float sdTorus(vec3 p, vec2 r) 
 {
 	float x = length(p.xz) - r.x;
     return length(vec2(x, p.y)) - r.y;
 }
-
 float sdSphere(vec3 p, float r)
 {
     return length(p) - r;
 }
-
-float sdCube(vec3 p, vec3 dim)
+float sdBox(vec3 p, vec3 dim)
 {
     vec3 d = abs(p) - dim;
     return min(max(d.x, max(d.y, d.z)), 0.0) + length(max(d, 0.0));
 }
+float sdTriPrism(vec3 p, vec2 h)
+{
+    vec3 q = abs(p);
+    return max(q.z - h.y, max(q.x * 0.866025 + p.y * 0.5, -p.y) - h.x * 0.5);
+}
+float sdHexPrism(vec3 p, vec2 h)
+{
+    const vec3 k = vec3(-0.8660254, 0.5, 0.57735);
+    p = abs(p);
+    p.xy -= 2.0 * min(dot(k.xy, p.xy), 0.0) * k.xy;
+    vec2 d = vec2
+    (
+        length(p.xy - vec2(clamp(p.x, -k.z * h.x, k.z * h.x), h.x)) * sign(p.y - h.x),
+        p.z - h.y
+    );
+    return min(max(d.x, d.y), 0.0) + length(max(d, 0.0)); 
+}
 
+// Fractals SDF
 float JuliaEstimator(vec3 pos)
 {
     vec4 p = vec4(pos, 0.0);
@@ -79,7 +112,6 @@ float JuliaEstimator(vec3 pos)
     return 0.5 * r * log(r) / length(dp);
 
 }
-
 float SierpenskiEstimator(vec3 z)
 {
     float scale = 2.0;
@@ -107,7 +139,6 @@ float SierpenskiEstimator(vec3 z)
 
     return length(z) * pow(scale, float(-n));
 }
-
 float mandlebulbEstimator(vec3 p)
 {
     vec3 z = p;
@@ -136,6 +167,7 @@ float mandlebulbEstimator(vec3 p)
 
 }
 
+// Rotate Operations
 mat4 RotateX(float theta)
 {
     return mat4
@@ -173,17 +205,13 @@ mat2 Rot(float theta)
 
 float GetDist(vec3 p) 
 {
-    float plane = p.y + 2.0;
-    //float plane = sdCube(RotateY(rotateRate * -15) * (p - vec3(0, 0, 0)), vec3(1));
-    //float box = sdTorus(p - vec3(0, 1, 0), vec2(1.5));
-    float box = mandlebulbEstimator(RotateY(rotateRate * 10) * p - vec3(0, 1, 0));
-    //float box = JuliaEstimator(RotateY(rotateRate * 10) * (p - vec3(0, 1, 0)));
+    p *= RotateY(rotateRate * 10);
     
-    float d = smin(plane, box, 0.1);
+    float plane = p.y + 2.0;
+    //float box = mandlebulbEstimator(p - vec3(0, 1, 0));
+    float box = sdHexPrism(p - vec3(0, 1, 0), vec2(1, 2));
 
-    //float d = min(plane, box);
-
-    return d;
+    return unionSDF(box, plane);
 }
 
 float RayMarch(vec3 ro, vec3 rd) 
@@ -218,22 +246,22 @@ vec3 GetNormal(vec3 sample)
     return normalize(normal);
 }
 
-float SoftShadow( in vec3 ro, in vec3 rd, float mint, float maxt, float k )
+float SoftShadow( in vec3 ro, in vec3 rd, float mint, float tmax)
 {
+    // bounding volume
+    float tp = (0.8-ro.y)/rd.y; if( tp>0.0 ) tmax = min( tmax, tp );
+
     float res = 1.0;
-    float ph = 1e20;
-    for( float t=mint; t<maxt; )
+    float t = mint;
+    for( int i=0; i<24; i++ )
     {
-        float h = GetDist(ro + rd*t);
-        if( h<0.001 )
-            return 0.0;
-        float y = h*h/(2.0*ph);
-        float d = sqrt(h*h-y*y);
-        res = min( res, k*d/max(0.0,t-y) );
-        ph = h;
-        t += h;
+		float h = GetDist( ro + rd*t );
+        float s = clamp(8.0*h/t,0.0,1.0);
+        res = min( res, s*s*(3.0-2.0*s) );
+        t += clamp( h, 0.02, 0.2 );
+        if( res<0.004 || t>tmax ) break;
     }
-    return res;
+    return clamp( res, 0.0, 1.0 );
 }
 
 float GetLight(vec3 sample)
@@ -249,13 +277,13 @@ float GetLight(vec3 sample)
 
     float distanceToLight = RayMarch(sample + normal * EPSILON * 2.0, light);
     
-    if(distanceToLight < length(lightPos - sample))
-        diff *= shadowDiffuse;
+    // if(distanceToLight < length(lightPos - sample))
+    //     diff *= shadowDiffuse;
     
     return diff;
 }
 
-vec3 R(vec2 uv, vec3 p, vec3 l, float z) 
+vec3 RayDir(vec2 uv, vec3 p, vec3 l, float z) 
 {
     vec3 f = normalize(l-p),
         r = normalize(cross(vec3(0,1,0), f)),
@@ -266,30 +294,16 @@ vec3 R(vec2 uv, vec3 p, vec3 l, float z)
     return d;
 }
 
-float CalcAO( in vec3 pos, in vec3 nor )
+vec3 Render(vec2 uv, out float d)
 {
-	float occ = 0.0;
-    float sca = 1.0;
-    for( int i=0; i<5; i++ )
-    {
-        float h = 0.001 + 0.15*float(i)/4.0;
-        float d = GetDist( pos + h*nor );
-        occ += (h-d)*sca;
-        sca *= 0.95;
-    }
-    return clamp( 1.0 - 1.5*occ, 0.0, 1.0 );    
-}
+    vec2 screen = (-uv) / SystemResolution;
 
-
-void main()
-{
-    vec3 color = vec3(0.1, 0.0, 0.1);
+    vec3 color = vec3(0.6196, 0.9333, 0.9451);
     vec3 ro = vec3(0, 1, -7);
-    //ro.xz *= Rot(rotateRate * 10);
 
-    vec3 rd = R(-texCoord, ro, vec3(0, 1, 0), zoom);
+    vec3 rd = RayDir(-uv, ro, vec3(0, 1, 0), zoom);
 
-    float d = RayMarch(ro, rd);
+    d = RayMarch(ro, rd);
 
     if(d < MAX_DIST)
     {
@@ -297,21 +311,40 @@ void main()
 
         float diff = GetLight(p);
 
-        float occ = CalcAO(p, GetNormal(p));
-
         color = vec3(0.0, 0.9686, 1.0) * vec3(diff);
         color *= exp( -0.0005 * d * d * d );
+        // Return refract texture later
 
-
-        // Post-Process
-        color = pow(color, vec3(0.4545));   //Gamma Correction
-        fragColor = vec4(color, 1.0);
+        return color;
     }
     else
     {
-        float glow = curr_Step / 3;
-        fragColor = mix(vec4(0), vec4(1), glow * 0.05);
-    }
+        // Return texture later
 
+        return color;
+    }
+}
+
+void main()
+{
+    vec3 color = vec3(0);
+
+    float d;
+
+    vec2 aao;
+    const float AAINC = 1.0 / float(AA);
+    for(aao.x =- 0.5; aao.x < 0.5; aao.x += AAINC)
+    {
+        for(aao.y =- 0.5; aao.y < 0.5; aao.y += AAINC)
+        {
+            color += Render(texCoord + aao / SystemResolution.y, d);
+        }
+    }
+    color /= float(AA * AA);
+
+    // Post-Process
+    color = pow(clamp(color, 0.0, 1.0), vec3(0.4545));   //Gamma Correction
+    //color *= 0.5 + 0.5 * pow(16.0 * screen.x * screen.y * (1.0 - screen.x) * (1.0 - screen.y), 0.1); // Vignetting
+    fragColor = vec4(color.xyz, smoothstep(0.55, 0.76, 1.0 - d / 5));
     
 }

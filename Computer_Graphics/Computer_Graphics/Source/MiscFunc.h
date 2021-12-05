@@ -35,10 +35,12 @@ Time sys_time;
 ImguiLayer imgui_layer;
 
 // camera
-Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
+Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 float lastX = (float)SCREEN_WIDTH / 2.0;
 float lastY = (float)SCREEN_HEIGHT / 2.0;
 bool firstMouse = true;
+
+float zoom = 1.5f;
 
 void DisplayInfo();
 
@@ -99,22 +101,11 @@ inline void ProcessInput(GLFWwindow* window)
         camera.ProcessKeyboard(LEFT, sys_time.deltaTime);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         camera.ProcessKeyboard(RIGHT, sys_time.deltaTime);
-}
 
-inline bool CheckCursor() 
-{
-    if (camera.Front.x >= 0 && camera.Front.x <= 0.2) 
-    {
-        if (camera.Front.y >= -0.4 && camera.Front.y <= -0.3) 
-        {
-            if(camera.Front.z >= 0.9 && camera.Front.z <= 0.92)
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+        camera.ProcessKeyboard(UP, sys_time.deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+        camera.ProcessKeyboard(DOWN, sys_time.deltaTime);
 }
 
 inline void Run(void)
@@ -168,9 +159,12 @@ inline void Run(void)
         imgui_layer.Render(sysWindowSize.first, sysWindowSize.second);
         imgui_layer.GUI_End();
 
+        rayMarchShader.SetVec3("Eye", camera.Position);
+
         rayMarchShader.SetFloat("SystemTime", sys_time.current_time);
+        rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
         rayMarchShader.SetFloat("rotateRate", cos(rotRate));
-        rayMarchShader.SetFloat("zoom", 2.5f);
+        rayMarchShader.SetFloat("zoom", zoom);
         rayquad.Render();
 
         /* Draw End */
@@ -194,12 +188,12 @@ inline void DisplayInfo()
     ImGui::Text("FPS: %.3f", ImGui::GetIO().Framerate);
 
     //ImGui::Checkbox(": Draw Solid", &draw_solid);
-    //ImGui::SliderFloat3(": Cube Center", &cube_center.x, -2.0f, 2.0f);
-    //ImGui::Button("Reset Center");
-    //if (ImGui::Button("Reset Center"))
-    //{
-    //    cube_center = Point(0, 0, -1);
-    //}
+    ImGui::SliderFloat3(": Zoom", &zoom, 1.0f, 5.0f);
+    /*ImGui::Button("Reset Center");
+    if (ImGui::Button("Reset Center"))
+    {
+        cube_center = Point(0, 0, -1);
+    }*/
 }
 
 #endif // !H_MISCFUNC
