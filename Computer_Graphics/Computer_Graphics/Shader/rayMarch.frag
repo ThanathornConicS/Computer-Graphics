@@ -39,6 +39,8 @@ uniform lowp vec2 Mouse_delta;
 uniform float rotateRate;
 uniform float zoom;
 
+uniform samplerCube tChannel0;
+
 // SDF Operators
 float smin( float a, float b, float k )  // polynomial smooth min 1 (k=0.1)
 {
@@ -91,6 +93,23 @@ float sdHexPrism(vec3 p, vec2 h)
     );
     return min(max(d.x, d.y), 0.0) + length(max(d, 0.0)); 
 }
+float sdRhombicDodeca(vec3 p, int fold)
+{
+    float c = cos(3.1415 / 5.0), s = sqrt(0.75 - c * c);
+    vec3 n = vec3(-0.5, -c, s);
+
+    p = abs(p);
+    p -= 2.0 * min(0, dot(p, n)) * n;
+
+    for(int i = 0; i < fold; i++)
+    {
+        p.xy = abs(p.xy);
+        p -= 2.0 * min(0, dot(p, n)) * n;
+    }
+
+    return p.z - 1;
+}
+
 
 // Fractals SDF
 float JuliaEstimator(vec3 pos)
@@ -196,25 +215,19 @@ mat3 RotateZ(float theta)
         vec3(0, 0, 1)
     );
 }
-mat2 Rot(float theta) 
-{
-    float s = sin(theta);
-    float c = cos(theta);
-    return mat2(c, -s, s, c);
-}
 
 float GetDist(vec3 p) 
 {
-    p *= RotateY(rotateRate * 10);
+    p *= RotateY(SystemTime * rotateRate);
     
-    float plane = p.y + 2.0;
-    //float box = mandlebulbEstimator(p - vec3(0, 1, 0));
-    float box = sdHexPrism(p - vec3(0, 1, 0), vec2(1, 2));
-
-    return unionSDF(box, plane);
+    float rhombic = sdRhombicDodeca(p - vec3(0, 1, 0), 3);
+    //float hexPrism = sdHexPrism(p - vec3(-2, 1, 0), vec2(1));
+    
+    return rhombic;
+    //return unionSDF(rhombic, hexPrism);
 }
 
-float RayMarch(vec3 ro, vec3 rd) 
+float RayMarch(vec3 ro, vec3 rd, float side) 
 {
 	float dO = 0.0;
     
@@ -222,7 +235,7 @@ float RayMarch(vec3 ro, vec3 rd)
     for(i = 0; i < MAX_STEPS; i++) 
     {
     	vec3 p = ro + rd * dO;
-        float dS = GetDist(p);
+        float dS = GetDist(p) * side;
         dO += dS;
 
         if(dO > MAX_DIST || dS < EPSILON) break;
@@ -234,7 +247,7 @@ float RayMarch(vec3 ro, vec3 rd)
 vec3 GetNormal(vec3 sample)
 {
     float distanceToPoint = GetDist(sample);
-    vec2 e = vec2(0.001, 0);
+    vec2 e = vec2(0.02, 0);
 
     vec3 normal = distanceToPoint - vec3
     (
@@ -244,24 +257,6 @@ vec3 GetNormal(vec3 sample)
     ); 
 
     return normalize(normal);
-}
-
-float SoftShadow( in vec3 ro, in vec3 rd, float mint, float tmax)
-{
-    // bounding volume
-    float tp = (0.8-ro.y)/rd.y; if( tp>0.0 ) tmax = min( tmax, tp );
-
-    float res = 1.0;
-    float t = mint;
-    for( int i=0; i<24; i++ )
-    {
-		float h = GetDist( ro + rd*t );
-        float s = clamp(8.0*h/t,0.0,1.0);
-        res = min( res, s*s*(3.0-2.0*s) );
-        t += clamp( h, 0.02, 0.2 );
-        if( res<0.004 || t>tmax ) break;
-    }
-    return clamp( res, 0.0, 1.0 );
 }
 
 float GetLight(vec3 sample)
@@ -275,12 +270,16 @@ float GetLight(vec3 sample)
 
     float diff = clamp(dot(normal, light) * diffuseStrength, 0.0, 1.0);
 
-    float distanceToLight = RayMarch(sample + normal * EPSILON * 2.0, light);
+    float distanceToLight = RayMarch(sample + normal * EPSILON * 2.0, light, 1);
     
     // if(distanceToLight < length(lightPos - sample))
     //     diff *= shadowDiffuse;
     
     return diff;
+}
+float fresnel(vec3 n, vec3 rd) 
+{
+  return pow(clamp(1.0 - dot(n, -rd), 0.0, 1.0), 5.0);
 }
 
 vec3 RayDir(vec2 uv, vec3 p, vec3 l, float z) 
@@ -303,25 +302,63 @@ vec3 Render(vec2 uv, out float d)
 
     vec3 rd = RayDir(-uv, ro, vec3(0, 1, 0), zoom);
 
-    d = RayMarch(ro, rd);
+    d = RayMarch(ro, rd, 1);
+
+    const float IOR = 1.52;     // Index of refraction
 
     if(d < MAX_DIST)
     {
-        vec3 p = ro + rd * d;
+        vec3 p = ro + rd * d;       // 3D Position
+        vec3 n = GetNormal(p);      // Normal of surface
+        vec3 r = reflect(rd, n); 
+
+        vec3 rdIn = refract(rd, n, 1.0 / IOR);
+        vec3 pEnter = p - n * EPSILON * 3.0;
+
+        float dIn = RayMarch(pEnter, rdIn, -1);
+
+        vec3 pExit = pEnter + rdIn * dIn;
+        vec3 nExit = -GetNormal(pExit);  
+
+        vec3 reflTex = vec3(0);
+        vec3 rdOut = vec3(0);
+
+        const float abb = 0.01;
+
+        // Red 
+        rdOut = refract(rdIn, nExit, IOR - abb);
+        if(dot(rdOut, rdOut) == 0)
+            rdOut = reflect(rdIn, nExit);  
+        reflTex.r = texture(tChannel0, rdOut).r;
+
+        // Green
+        rdOut = refract(rdIn, nExit, IOR);
+        if(dot(rdOut, rdOut) == 0)
+            rdOut = reflect(rdIn, nExit);  
+        reflTex.g = texture(tChannel0, rdOut).g;
+
+        // Blue
+        rdOut = refract(rdIn, nExit, IOR + abb);
+        if(dot(rdOut, rdOut) == 0)
+            rdOut = reflect(rdIn, nExit);  
+        reflTex.b = texture(tChannel0, rdOut).b;
 
         float diff = GetLight(p);
 
-        color = vec3(0.0, 0.9686, 1.0) * vec3(diff);
+        color = reflTex * vec3(diff);
         color *= exp( -0.0005 * d * d * d );
-        // Return refract texture later
+
+        float density = 0.2;
+        float opticalDist = exp(-dIn * density);
+
+        color *= opticalDist * vec3(0.6745, 0.4784, 0.8314);
+        color += fresnel(n, rd) * 0.2;
 
         return color;
     }
     else
     {
-        // Return texture later
-
-        return color;
+        return texture(tChannel0, color).rgb;
     }
 }
 

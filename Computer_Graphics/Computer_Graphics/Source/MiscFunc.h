@@ -2,11 +2,14 @@
 #ifndef H_MISCFUNC
 #define H_MISCFUNC
 
+//#include "pch.h"
+
 #include "Window.h"
 
 #include "Affine.h"
 #include "imguiLayer.h"
 
+#include "Texture.h"
 #include "Camera.h"
 
 #include "RayQuadMesh.h"
@@ -39,8 +42,52 @@ Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 float lastX = (float)SCREEN_WIDTH / 2.0;
 float lastY = (float)SCREEN_HEIGHT / 2.0;
 bool firstMouse = true;
+float rotRate = 1.0f;
 
-float zoom = 1.5f;
+float skyboxVertices[] = {
+    // positions          
+    -1.0f,  1.0f, -1.0f,
+    -1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+
+    -1.0f, -1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f,
+    -1.0f, -1.0f,  1.0f,
+
+    -1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f,  1.0f,
+     1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f,  1.0f,
+    -1.0f,  1.0f, -1.0f,
+
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+     1.0f, -1.0f,  1.0f
+};
 
 void DisplayInfo();
 
@@ -85,7 +132,7 @@ inline void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 /* Process mouse scroll when there are activities */
 inline void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    camera.ProcessMouseScroll(yoffset);
+    camera.ProcessMouseScroll(-yoffset);
 }
 /* Continuously procss input */
 inline void ProcessInput(GLFWwindow* window)
@@ -93,19 +140,12 @@ inline void ProcessInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.ProcessKeyboard(FORWARD, sys_time.deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.ProcessKeyboard(BACKWARD, sys_time.deltaTime);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.ProcessKeyboard(LEFT, sys_time.deltaTime);
+        rotRate += 0.01f;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.ProcessKeyboard(RIGHT, sys_time.deltaTime);
+        rotRate -= 0.01f;
 
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-        camera.ProcessKeyboard(UP, sys_time.deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
-        camera.ProcessKeyboard(DOWN, sys_time.deltaTime);
+    L_TRACE("Rot Rate: {0}", rotRate);
 }
 
 inline void Run(void)
@@ -118,14 +158,33 @@ inline void Run(void)
     imgui_layer.Init();
     imgui_layer.SetFunction(DisplayInfo);
 
+    Shader skyBoxShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
     Shader rayMarchShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
 
-    rayMarchShader.Use();
+    // skybox VAO
+    /*unsigned int skyboxVAO, skyboxVBO;
+    glGenVertexArrays(1, &skyboxVAO);
+    glGenBuffers(1, &skyboxVBO);
+    glBindVertexArray(skyboxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);*/
 
+    std::vector<std::string> faces
+    {
+        "Assets/CubeMaps/posx.jpg",
+        "Assets/CubeMaps/negx.jpg",
+        "Assets/CubeMaps/posy.jpg",
+        "Assets/CubeMaps/negy.jpg",
+        "Assets/CubeMaps/posz.jpg",
+        "Assets/CubeMaps/negz.jpg"
+    };
+    Texture cubeMap(faces);
+
+    rayMarchShader.Use();
     RayQuadMesh rayquad;
     rayquad.GenVertexObject();
-
-    float rotRate = 5.0f;
 
     do
     {
@@ -159,13 +218,18 @@ inline void Run(void)
         imgui_layer.Render(sysWindowSize.first, sysWindowSize.second);
         imgui_layer.GUI_End();
 
+        rayMarchShader.Use();
+
         rayMarchShader.SetVec3("Eye", camera.Position);
 
         rayMarchShader.SetFloat("SystemTime", sys_time.current_time);
         rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
-        rayMarchShader.SetFloat("rotateRate", cos(rotRate));
-        rayMarchShader.SetFloat("zoom", zoom);
+        rayMarchShader.SetFloat("rotateRate", rotRate);
+        rayMarchShader.SetFloat("zoom", camera.Zoom);
         rayquad.Render();
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());
 
         /* Draw End */
 
@@ -174,12 +238,9 @@ inline void Run(void)
         glfwPollEvents();
         sys_time.current_time += sys_time.deltaTime;
 
-        rotRate += 0.001f;
-
     } while (glfwGetKey(sysWin->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(sysWin->GetWindow()) == 0);
 
 }
-
 
 /* Attach with ImGui Element */
 inline void DisplayInfo()
@@ -188,7 +249,7 @@ inline void DisplayInfo()
     ImGui::Text("FPS: %.3f", ImGui::GetIO().Framerate);
 
     //ImGui::Checkbox(": Draw Solid", &draw_solid);
-    ImGui::SliderFloat3(": Zoom", &zoom, 1.0f, 5.0f);
+    //ImGui::SliderFloat3(": Zoom", &zoom, 1.0f, 5.0f);
     /*ImGui::Button("Reset Center");
     if (ImGui::Button("Reset Center"))
     {

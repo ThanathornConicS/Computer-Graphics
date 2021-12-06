@@ -42,7 +42,7 @@ Window::Window()
 
     glfwMakeContextCurrent(m_window);
     glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
-    //glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetWindowPos(m_window, m_xpos, m_ypos);
 }
 Window::~Window()
