@@ -145,7 +145,7 @@ inline void ProcessInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         rotRate -= 0.01f;
 
-    L_TRACE("Rot Rate: {0}", rotRate);
+    //L_TRACE("Rot Rate: {0}", rotRate);
 }
 
 inline void Run(void)

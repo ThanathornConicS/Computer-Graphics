@@ -247,7 +247,7 @@ float RayMarch(vec3 ro, vec3 rd, float side)
 vec3 GetNormal(vec3 sample)
 {
     float distanceToPoint = GetDist(sample);
-    vec2 e = vec2(0.02, 0);
+    vec2 e = vec2(0.04, 0);
 
     vec3 normal = distanceToPoint - vec3
     (
@@ -295,8 +295,6 @@ vec3 RayDir(vec2 uv, vec3 p, vec3 l, float z)
 
 vec3 Render(vec2 uv, out float d)
 {
-    vec2 screen = (-uv) / SystemResolution;
-
     vec3 color = vec3(0.6196, 0.9333, 0.9451);
     vec3 ro = vec3(0, 1, -7);
 
@@ -305,6 +303,7 @@ vec3 Render(vec2 uv, out float d)
     d = RayMarch(ro, rd, 1);
 
     const float IOR = 1.52;     // Index of refraction
+    const float abb = 0.01;
 
     if(d < MAX_DIST)
     {
@@ -322,8 +321,6 @@ vec3 Render(vec2 uv, out float d)
 
         vec3 reflTex = vec3(0);
         vec3 rdOut = vec3(0);
-
-        const float abb = 0.01;
 
         // Red 
         rdOut = refract(rdIn, nExit, IOR - abb);
@@ -351,20 +348,24 @@ vec3 Render(vec2 uv, out float d)
         float density = 0.2;
         float opticalDist = exp(-dIn * density);
 
-        color *= opticalDist * vec3(0.6745, 0.4784, 0.8314);
-        color += fresnel(n, rd) * 0.2;
+        vec3 absorbtionCol = vec3(0.8353, 0.2078, 0.9922);
+
+        color *= mix(absorbtionCol, vec3(1), opticalDist);
+        color += fresnel(n, rd) * 0.31;
 
         return color;
     }
     else
     {
-        return texture(tChannel0, color).rgb;
+        //return texture(tChannel0, fragCoord).rgb;
+        return color;
     }
 }
 
 void main()
 {
     vec3 color = vec3(0);
+    vec2 screen = (texCoord) / SystemResolution;
 
     float d;
 
@@ -380,8 +381,8 @@ void main()
     color /= float(AA * AA);
 
     // Post-Process
-    color = pow(clamp(color, 0.0, 1.0), vec3(0.4545));   //Gamma Correction
-    //color *= 0.5 + 0.5 * pow(16.0 * screen.x * screen.y * (1.0 - screen.x) * (1.0 - screen.y), 0.1); // Vignetting
-    fragColor = vec4(color.xyz, smoothstep(0.55, 0.76, 1.0 - d / 5));
+    color = pow(color, vec3(0.4545));   //Gamma Correction
+
+    fragColor = vec4(color, 1.0);
     
 }
