@@ -15,6 +15,8 @@
 #include "RayQuadMesh.h"
 #include "Shader.h"
 
+#include "gtc/matrix_transform.hpp"
+
 struct Time
 {
     double time_last;
@@ -43,6 +45,7 @@ float lastX = (float)SCREEN_WIDTH / 2.0;
 float lastY = (float)SCREEN_HEIGHT / 2.0;
 bool firstMouse = true;
 float rotRate = 1.0f;
+float zoom = 1.0f;
 
 float skyboxVertices[] = {
     // positions          
@@ -132,7 +135,7 @@ inline void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 /* Process mouse scroll when there are activities */
 inline void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    camera.ProcessMouseScroll(-yoffset);
+    camera.ProcessMouseScroll(yoffset, zoom);
 }
 /* Continuously procss input */
 inline void ProcessInput(GLFWwindow* window)
@@ -145,7 +148,7 @@ inline void ProcessInput(GLFWwindow* window)
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         rotRate -= 0.01f;
 
-    //L_TRACE("Rot Rate: {0}", rotRate);
+    L_TRACE("Rot Rate: {0}", rotRate);
 }
 
 inline void Run(void)
@@ -158,18 +161,18 @@ inline void Run(void)
     imgui_layer.Init();
     imgui_layer.SetFunction(DisplayInfo);
 
-    Shader skyBoxShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
+    Shader skyBoxShader("Shader/skyBox.vert", "Shader/skyBox.frag");
     Shader rayMarchShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
 
     // skybox VAO
-    /*unsigned int skyboxVAO, skyboxVBO;
+    unsigned int skyboxVAO, skyboxVBO;
     glGenVertexArrays(1, &skyboxVAO);
     glGenBuffers(1, &skyboxVBO);
     glBindVertexArray(skyboxVAO);
     glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);*/
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
     std::vector<std::string> faces
     {
@@ -182,9 +185,14 @@ inline void Run(void)
     };
     Texture cubeMap(faces);
 
+    skyBoxShader.Use();
+    skyBoxShader.SetInt("skybox", 0);
+
     rayMarchShader.Use();
     RayQuadMesh rayquad;
     rayquad.GenVertexObject();
+
+    glm::mat4 shaderRotMat = glm::mat4(1.0f);
 
     do
     {
@@ -208,6 +216,8 @@ inline void Run(void)
 
         ProcessInput(sysWin->GetWindow());
 
+        shaderRotMat = glm::rotate(shaderRotMat, (float)(rotRate * sys_time.current_time * 0.005f), glm::vec3(0, 1, 1));
+
         // clear the screen
         glClearColor(0.4f, 0.1f, 0.3f, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -224,12 +234,31 @@ inline void Run(void)
 
         rayMarchShader.SetFloat("SystemTime", sys_time.current_time);
         rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
-        rayMarchShader.SetFloat("rotateRate", rotRate);
-        rayMarchShader.SetFloat("zoom", camera.Zoom);
-        rayquad.Render();
+        rayMarchShader.SetFloat("zoom", zoom);
+        rayMarchShader.SetMat4("rotMat", shaderRotMat);
 
+        rayquad.Render();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());
+
+        // draw skybox as last
+        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+        skyBoxShader.Use();
+        glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+        glm::mat4 view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
+        skyBoxShader.SetMat4("view", view);
+        skyBoxShader.SetMat4("projection", projection);
+        // skybox cube
+        glBindVertexArray(skyboxVAO);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(0);
+        glDepthFunc(GL_LESS); // set depth function back to default
+
+        /*rayquad.Render();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());*/
 
         /* Draw End */
 

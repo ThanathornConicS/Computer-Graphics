@@ -25,8 +25,8 @@ int main(int argc, char* argv[])
     sysWin = &Window::GetInstance();
 
     /* Window Initialization */
-    //glfwSetKeyCallback(sysWin->GetWindow(), KeyPressedCallback);
-    glfwSetCursorPosCallback(sysWin->GetWindow(), CursorPosCallback);
+    glfwSetKeyCallback(sysWin->GetWindow(), KeyPressedCallback);
+    //glfwSetCursorPosCallback(sysWin->GetWindow(), CursorPosCallback);
     glfwSetScrollCallback(sysWin->GetWindow(), MouseScrollCallback);
 
     Run();

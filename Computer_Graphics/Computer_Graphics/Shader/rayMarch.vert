@@ -10,5 +10,6 @@ void main()
 {   
     fragCoord = aPos;
     texCoord = aTexCoord;
-    gl_Position = vec4(fragCoord, 1);
+
+    gl_Position = vec4(aPos, 1.0);
 }

@@ -24,7 +24,7 @@ const float orbitStrength = 0.8;
 vec4 orbitTrap = vec4(MAX_DIST);
 int curr_Step;
 
-vec2 mouseDelta;
+const vec3 O = vec3(0);
 
 in vec3 fragCoord;
 in vec2 texCoord;
@@ -34,10 +34,9 @@ out vec4 fragColor;
 uniform float SystemTime;
 uniform vec2 SystemResolution;
 uniform vec3 Eye;
-uniform lowp vec2 Mouse_delta;
 
-uniform float rotateRate;
 uniform float zoom;
+uniform mat4 rotMat;
 
 uniform samplerCube tChannel0;
 
@@ -218,9 +217,11 @@ mat3 RotateZ(float theta)
 
 float GetDist(vec3 p) 
 {
-    p *= RotateY(SystemTime * rotateRate);
+    vec4 center = vec4(p - vec3(0, 1, 0), 1.0);
+
+    center *= rotMat;
     
-    float rhombic = sdRhombicDodeca(p - vec3(0, 1, 0), 3);
+    float rhombic = sdRhombicDodeca(center.xyz, 3);
     //float hexPrism = sdHexPrism(p - vec3(-2, 1, 0), vec2(1));
     
     return rhombic;
@@ -263,8 +264,6 @@ float GetLight(vec3 sample)
 {
     vec3 lightPos = vec3(3, 5, -7);
 
-    //lightPos *= RotateY(rotateRate * 5);
-
     vec3 light = normalize(lightPos - sample);
     vec3 normal = GetNormal(sample);
 
@@ -293,7 +292,7 @@ vec3 RayDir(vec2 uv, vec3 p, vec3 l, float z)
     return d;
 }
 
-vec3 Render(vec2 uv, out float d)
+vec3 Render(vec2 uv, out float d, out bool hit)
 {
     vec3 color = vec3(0.6196, 0.9333, 0.9451);
     vec3 ro = vec3(0, 1, -7);
@@ -353,11 +352,12 @@ vec3 Render(vec2 uv, out float d)
         color *= mix(absorbtionCol, vec3(1), opticalDist);
         color += fresnel(n, rd) * 0.31;
 
+        hit = true;
         return color;
     }
     else
     {
-        //return texture(tChannel0, fragCoord).rgb;
+        hit = false;
         return color;
     }
 }
@@ -368,6 +368,7 @@ void main()
     vec2 screen = (texCoord) / SystemResolution;
 
     float d;
+    bool hit;
 
     vec2 aao;
     const float AAINC = 1.0 / float(AA);
@@ -375,14 +376,17 @@ void main()
     {
         for(aao.y =- 0.5; aao.y < 0.5; aao.y += AAINC)
         {
-            color += Render(texCoord + aao / SystemResolution.y, d);
+            color += Render(texCoord + aao / SystemResolution.y, d, hit);
         }
     }
+
+    if(!hit) discard;
+
     color /= float(AA * AA);
 
     // Post-Process
-    color = pow(color, vec3(0.4545));   //Gamma Correction
+    color = smoothstep(0.0, 1.0, color);        // Contrast
+    color = pow(color, vec3(0.4545));         //Gamma Correction
 
     fragColor = vec4(color, 1.0);
-    
 }
