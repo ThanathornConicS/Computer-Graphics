@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     Run();
 
     L_SYSTEM_INFO("Closing window...");
-    L_SYSTEM_INFO("System Shutdown");
+    L_SYSTEM_INFO("System is Shutting down...");
     imgui_layer.Terminate();
     glfwTerminate();
 
