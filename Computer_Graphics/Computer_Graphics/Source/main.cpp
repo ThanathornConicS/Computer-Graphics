@@ -1,11 +1,15 @@
 #include <pch.h>
-#define STB_IMAGE_IMPLEMENTATION
 
-#include "MiscFunc.h"
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <vec4.hpp>
+#include <mat4x4.hpp>
+
+#include "VulkanApp.h"
 
 int main(int argc, char* argv[])
 {
-    HANDLE mutex = CreateMutex(NULL, TRUE, L"Computer Graphics");
+    HANDLE mutex = CreateMutex(NULL, TRUE, (LPCWSTR)(APP_NAME));
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
         MessageBox(NULL, L"Multiple Instances of Application", NULL, MB_ICONERROR | MB_OK);
@@ -20,21 +24,17 @@ int main(int argc, char* argv[])
     Log::Log::Init();
     L_SYSTEM_INFO("Initializing Log");
 
-    /* Window Initialization */
+    VulkanApp app;
 
-    sysWin = &Window::GetInstance();
-
-    /* Window Initialization */
-    glfwSetKeyCallback(sysWin->GetWindow(), KeyPressedCallback);
-    //glfwSetCursorPosCallback(sysWin->GetWindow(), CursorPosCallback);
-    glfwSetScrollCallback(sysWin->GetWindow(), MouseScrollCallback);
-
-    Run();
-
-    L_SYSTEM_INFO("Closing window...");
-    L_SYSTEM_INFO("System Shutdown");
-    imgui_layer.Terminate();
-    glfwTerminate();
+    try 
+    {
+        app.RunVulkanApp();
+    } 
+    catch (const std::exception& e) 
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
     _CrtMemCheckpoint(&sNew); //take a snapshot 
     if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
@@ -47,5 +47,5 @@ int main(int argc, char* argv[])
         _CrtDumpMemoryLeaks();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

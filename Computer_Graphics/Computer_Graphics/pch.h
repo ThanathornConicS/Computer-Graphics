@@ -21,3 +21,6 @@
 //#define STB_IMAGE_IMPLEMENTATION
 
 #define PI 2 * acos(0.0f)
+#define APP_NAME "Vulkan Window"
+#define SCR_WIDTH 800
+#define SCR_HEIGHT 800
