@@ -2,18 +2,23 @@
 #include <Windows.h>
 
 #include <iostream>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstdlib>
+#include <cmath>
+
 #include <memory>
+#include <optional>
+#include <algorithm>
 
 #include <string>
 #include <sstream>
 #include <cassert>
-#include <cmath>
 #include <fstream>
 
 #include <vector>
+#include <set>
 
 #include "Log.h"
 
