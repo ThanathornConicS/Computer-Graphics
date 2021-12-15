@@ -160,6 +160,7 @@
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Source\Vertex.h" />
     <ClInclude Include="Source\VulkanApp.h" />
   </ItemGroup>
   <ItemGroup>

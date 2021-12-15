@@ -7,6 +7,8 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
+#include "Vertex.h"
+
 const std::vector<const char*> validationLayers =
 {
 	"VK_LAYER_KHRONOS_validation"
@@ -85,6 +87,19 @@ private:
 	void CreateGraphicsPipeline();
 	void CreateRenderPass();
 	void CreateFrameBuffer();
+	void CreateCommandPool();
+	void CreateVertexBuffer();
+	void CreateIndexBuffer();
+	void CreateCommandBuffers();
+	void CreateSyncObjects();
+
+	void DrawFrame();
+
+	void CleanupSwapChain();
+	void RecreateSwapChain();
+
+	void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+	void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 	std::vector<const char*> GetRequiredExtension();
 	bool CheckValidationLayerSupport();
@@ -101,6 +116,13 @@ private:
 
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
+	uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+	inline static void frameBufferSize_callback(GLFWwindow* window, int width, int height) 
+	{
+		auto app = reinterpret_cast<VulkanApp*>(glfwGetWindowUserPointer(window));
+		app->m_framebufferResized = true;
+	}
 	inline static std::vector<char> ReadFile(const std::string& filename)
 	{
 		std::ifstream file(filename, std::ios::ate | std::ios::binary);
@@ -149,12 +171,40 @@ private:
 	VkRenderPass m_renderPass;
 	VkPipeline m_graphicsPipeline;
 
+	VkCommandPool m_commandPool;
+
+	VkBuffer m_vertexBuffer;
+	VkDeviceMemory m_vertexBufferMemory;
+	VkBuffer m_indexBuffer;
+	VkDeviceMemory m_indexBufferMemory;
+
 	GLFWwindow* m_window;
 
 	std::vector<VkImage> m_swapChainImages;
 	std::vector<VkImageView> m_swapChainImageViews;
 	std::vector<VkFramebuffer> m_swapChainFramebuffers;
+	std::vector<VkCommandBuffer> m_commandBuffers;
 
+	std::vector<VkSemaphore> m_imageAvailableSemaphore;
+	std::vector<VkSemaphore> m_renderFinishedSemaphore;
+	std::vector<VkFence> m_inFlightFence;
+	std::vector<VkFence> m_imagesInFlight;
+
+	size_t m_currentFrame = 0;
+
+	bool m_framebufferResized = false;
+
+	const std::vector<Vertex> vertices =
+	{
+		{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+		{{ 0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+		{{ 0.5f,  0.5f}, {0.0f, 0.0f, 1.0f}},
+		{{-0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}}
+	};
+	const std::vector<uint16_t> indices =
+	{
+		0, 1, 2, 2, 3, 0
+	};
 };
 
 #endif //VULKANAPP_H

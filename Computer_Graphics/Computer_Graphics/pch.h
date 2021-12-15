@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <set>
+#include <array>
 
 #include "Log.h"
 
@@ -29,3 +30,5 @@
 #define APP_NAME "Vulkan Window"
 #define SCR_WIDTH 800
 #define SCR_HEIGHT 800
+
+const int MAX_FRAMES_IN_FLIGHT = 2;

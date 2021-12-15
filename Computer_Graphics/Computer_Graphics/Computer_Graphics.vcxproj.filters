@@ -29,6 +29,9 @@
     <Filter Include="Vulkan\VulkanApp">
       <UniqueIdentifier>{71272d3b-893d-4332-b7d5-6e3e896703e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CG\Vertex">
+      <UniqueIdentifier>{2c2d34a8-609f-498d-9543-b4c0e3bc8953}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="Source\VulkanApp.h">
       <Filter>Vulkan\VulkanApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Vertex.h">
+      <Filter>CG\Vertex</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
