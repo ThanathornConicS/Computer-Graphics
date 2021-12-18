@@ -41,6 +41,9 @@
     <Filter Include="CG\AssetsLoader\ImageLoader">
       <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CG\Camera">
+      <UniqueIdentifier>{a1f26afd-a800-448e-9331-d550fb96d452}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -54,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="Source\VulkanApp.cpp">
       <Filter>Systems\Vulkan\VulkanApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>CG\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="Source\Time.h">
       <Filter>Systems\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Camera.h">
+      <Filter>CG\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

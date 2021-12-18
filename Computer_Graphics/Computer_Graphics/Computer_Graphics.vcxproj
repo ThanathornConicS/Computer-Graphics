@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Source\main.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="..\Resources\stb_image\stb_image.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
+    <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\Time.h" />
