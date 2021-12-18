@@ -20,17 +20,26 @@
     <Filter Include="CG\Main">
       <UniqueIdentifier>{0589615b-e457-410f-bfa5-c2d809a99531}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ImageLoader">
-      <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vulkan">
-      <UniqueIdentifier>{34bce929-2846-43d8-b921-940dd952955f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Vulkan\VulkanApp">
-      <UniqueIdentifier>{71272d3b-893d-4332-b7d5-6e3e896703e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CG\Vertex">
       <UniqueIdentifier>{2c2d34a8-609f-498d-9543-b4c0e3bc8953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems">
+      <UniqueIdentifier>{12ceec61-c405-4a2a-ac29-eba7ed271e88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Vulkan">
+      <UniqueIdentifier>{34bce929-2846-43d8-b921-940dd952955f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Vulkan\VulkanApp">
+      <UniqueIdentifier>{71272d3b-893d-4332-b7d5-6e3e896703e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Systems\Time">
+      <UniqueIdentifier>{98b5f9e7-e3b1-4b7a-be17-f0f008c96ed2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\AssetsLoader">
+      <UniqueIdentifier>{b8954c50-6ea5-4aec-b0ca-55ce15a815cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\AssetsLoader\ImageLoader">
+      <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,7 +53,7 @@
       <Filter>Resource Files\Log</Filter>
     </ClCompile>
     <ClCompile Include="Source\VulkanApp.cpp">
-      <Filter>Vulkan\VulkanApp</Filter>
+      <Filter>Systems\Vulkan\VulkanApp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,19 +64,22 @@
       <Filter>Resource Files\Log</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image.h">
-      <Filter>ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h">
-      <Filter>ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h">
-      <Filter>ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="Source\VulkanApp.h">
-      <Filter>Vulkan\VulkanApp</Filter>
+      <Filter>Systems\Vulkan\VulkanApp</Filter>
     </ClInclude>
     <ClInclude Include="Source\Vertex.h">
       <Filter>CG\Vertex</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Time.h">
+      <Filter>Systems\Time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

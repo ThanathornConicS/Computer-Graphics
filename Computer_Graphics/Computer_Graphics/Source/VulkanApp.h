@@ -7,7 +7,10 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 
+#include <stb_image.h>
+
 #include "Vertex.h"
+#include "Time.h"
 
 const std::vector<const char*> validationLayers =
 {
@@ -84,12 +87,17 @@ private:
 	void CreateSurface();
 	void CreateSwapChain();
 	void CreateImageViews();
+	void CreateDescriptorSetLayout();
 	void CreateGraphicsPipeline();
 	void CreateRenderPass();
 	void CreateFrameBuffer();
 	void CreateCommandPool();
+	void CreateTextureImage();
 	void CreateVertexBuffer();
 	void CreateIndexBuffer();
+	void CreateUniformBuffers();
+	void CreateDescriptorPool();
+	void CreateDescriptorSets();
 	void CreateCommandBuffers();
 	void CreateSyncObjects();
 
@@ -116,7 +124,11 @@ private:
 
 	VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
+	void UpdateUniformBuffer(uint32_t currentImage);
+
 	uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+
+	VkSampleCountFlagBits GetMaxUsableSampleCount();
 
 	inline static void frameBufferSize_callback(GLFWwindow* window, int width, int height) 
 	{
@@ -167,16 +179,28 @@ private:
 	VkFormat m_swapChainImageFormat;
 	VkExtent2D m_swapChainExtent;
 
+	VkDescriptorSetLayout m_descriptorSetLayout;
+
 	VkPipelineLayout m_pipelineLayout;
 	VkRenderPass m_renderPass;
 	VkPipeline m_graphicsPipeline;
 
 	VkCommandPool m_commandPool;
+	VkDescriptorPool m_descriptorPool;
 
 	VkBuffer m_vertexBuffer;
 	VkDeviceMemory m_vertexBufferMemory;
 	VkBuffer m_indexBuffer;
 	VkDeviceMemory m_indexBufferMemory;
+
+	VkSampleCountFlagBits m_msaaSamples = VK_SAMPLE_COUNT_1_BIT;
+
+	VkImage colorImage;
+	VkDeviceMemory colorImageMemory;
+	VkImageView colorImageView;
+
+	VkImage m_textureImage;
+	VkDeviceMemory m_textureImageMemory;
 
 	GLFWwindow* m_window;
 
@@ -190,9 +214,16 @@ private:
 	std::vector<VkFence> m_inFlightFence;
 	std::vector<VkFence> m_imagesInFlight;
 
+	std::vector<VkBuffer> m_uniformBuffers;
+	std::vector<VkDeviceMemory> m_uniformBuffersMemory;
+
+	std::vector<VkDescriptorSet> m_descriptorSets;
+
 	size_t m_currentFrame = 0;
 
 	bool m_framebufferResized = false;
+
+	Time m_systemTime;
 
 	const std::vector<Vertex> vertices =
 	{
