@@ -5,7 +5,7 @@
 
 int main(int argc, char* argv[])
 {
-    HANDLE mutex = CreateMutex(NULL, TRUE, L"Computer Graphics");
+    HANDLE mutex = CreateMutex(NULL, TRUE, (LPCWSTR)(APPNAME));
     if (GetLastError() == ERROR_ALREADY_EXISTS)
     {
         MessageBox(NULL, L"Multiple Instances of Application", NULL, MB_ICONERROR | MB_OK);
@@ -20,20 +20,15 @@ int main(int argc, char* argv[])
     Log::Log::Init();
     L_SYSTEM_INFO("Initializing Log");
 
-    /* Window Initialization */
-
     sysWin = &Window::GetInstance();
 
-    /* Window Initialization */
-    glfwSetKeyCallback(sysWin->GetWindow(), KeyPressedCallback);
-    //glfwSetCursorPosCallback(sysWin->GetWindow(), CursorPosCallback);
     glfwSetScrollCallback(sysWin->GetWindow(), MouseScrollCallback);
 
     Run();
 
     L_SYSTEM_INFO("Closing window...");
+    glfwDestroyWindow(sysWin->GetWindow());
     L_SYSTEM_INFO("System is Shutting down...");
-    imgui_layer.Terminate();
     glfwTerminate();
 
     _CrtMemCheckpoint(&sNew); //take a snapshot 
@@ -41,8 +36,8 @@ int main(int argc, char* argv[])
     {
         OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
         _CrtMemDumpStatistics(&sDiff);
-        OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
-        _CrtMemDumpAllObjectsSince(&sOld);
+        /*OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
+        _CrtMemDumpAllObjectsSince(&sOld);*/
         OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
         _CrtDumpMemoryLeaks();
     }

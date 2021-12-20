@@ -44,6 +44,10 @@ Window::Window()
     glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetWindowPos(m_window, m_xpos, m_ypos);
+
+    //glfwSetKeyCallback(m_window, KeyPressedCallback);
+    //glfwSetCursorPosCallback(m_window, CursorPosCallback);
+    //glfwSetScrollCallback(m_window, MouseScrollCallback);
 }
 Window::~Window()
 {}

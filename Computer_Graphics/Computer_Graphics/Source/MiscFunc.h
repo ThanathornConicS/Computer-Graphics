@@ -2,97 +2,39 @@
 #ifndef H_MISCFUNC
 #define H_MISCFUNC
 
-//#include "pch.h"
-
 #include "Window.h"
 
-#include "Affine.h"
 #include "imguiLayer.h"
 
 #include "Texture.h"
 #include "Camera.h"
 
 #include "RayQuadMesh.h"
+#include "SkyboxMesh.h"
+#include "QuadMesh.h"
 #include "Shader.h"
+#include "HDRBuffer.h"
+
+#include "Time.h"
 
 #include "gtc/matrix_transform.hpp"
-
-struct Time
-{
-    double time_last;
-    double current_time;
-    int frame_count;
-    double frame_time;
-    double deltaTime;
-
-    Time(double tl = 0, double ct = 0, int fc = 0, double ft = 0, double dt = 0)
-        :time_last(tl), current_time(ct), frame_count(fc), frame_time(ft), deltaTime(dt)
-    {}
-};
 
 GLuint progID;
 
 Window* sysWin = nullptr;
-const int SCREEN_WIDTH = 1000;
-const int SCREEN_HEIGHT = 1000;
-Time sys_time;
+Time sysTime;
 
-ImguiLayer imgui_layer;
+//ImguiLayer imgui_layer;
 
 // camera
 Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
-float lastX = (float)SCREEN_WIDTH / 2.0;
-float lastY = (float)SCREEN_HEIGHT / 2.0;
+float lastX = (float)SCREEN_WIDTH / 2.0f;
+float lastY = (float)SCREEN_HEIGHT / 2.0f;
 bool firstMouse = true;
 float rotRate = 1.0f;
 float zoom = 1.0f;
 
-float skyboxVertices[] = {
-    // positions          
-    -1.0f,  1.0f, -1.0f,
-    -1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f,
-    -1.0f, -1.0f,  1.0f,
-
-    -1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f,
-     1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-     1.0f, -1.0f,  1.0f
-};
-
-void DisplayInfo();
+float exposure = 1.0f;
 
 float frand(float a = 0, float b = 1)
 {
@@ -144,35 +86,31 @@ inline void ProcessInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        rotRate += 0.01f;
+        rotRate += 0.1f;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        rotRate -= 0.01f;
+        rotRate -= 0.1f;
+    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+        exposure += 0.01f;
+    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+        exposure -= 0.01f;
 
-    L_TRACE("Rot Rate: {0}", rotRate);
+    /*L_TRACE("Rot Rate: {0}", rotRate);
+    L_TRACE("Exposure: {0}", exposure);*/
 }
 
 inline void Run(void)
 {
     std::pair<int, int> sysWindowSize = sysWin->GetWindowSize();
 
-    sys_time.time_last = glfwGetTime();
+    sysTime.time_last = glfwGetTime();
 
-    imgui_layer = ImguiLayer(sysWindowSize.first, sysWindowSize.second, sysWin->GetWindow());
+    /*imgui_layer = ImguiLayer(sysWindowSize.first, sysWindowSize.second, sysWin->GetWindow());
     imgui_layer.Init();
-    imgui_layer.SetFunction(DisplayInfo);
+    imgui_layer.SetFunction(DisplayInfo);*/
 
     Shader skyBoxShader("Shader/skyBox.vert", "Shader/skyBox.frag");
     Shader rayMarchShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
-
-    // skybox VAO
-    unsigned int skyboxVAO, skyboxVBO;
-    glGenVertexArrays(1, &skyboxVAO);
-    glGenBuffers(1, &skyboxVBO);
-    glBindVertexArray(skyboxVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    Shader hdrShader("Shader/hdrVertex.vert", "Shader/hdrFragment.frag");
 
     std::vector<std::string> faces
     {
@@ -185,8 +123,15 @@ inline void Run(void)
     };
     Texture cubeMap(faces);
 
+    HDRBuffer hdrBuffer;
+    hdrBuffer.CreateBuffer();
+    QuadMesh quadMesh;
+    quadMesh.GenVertexObject();
+
     skyBoxShader.Use();
     skyBoxShader.SetInt("skybox", 0);
+    SkyboxMesh skybox;
+    skybox.GenVertexObject();
 
     rayMarchShader.Use();
     RayQuadMesh rayquad;
@@ -196,27 +141,11 @@ inline void Run(void)
 
     do
     {
-        double t = glfwGetTime();
-        sys_time.deltaTime = t - sys_time.time_last;
-        sys_time.time_last = t;
-
-        // frame rate
-        ++sys_time.frame_count;
-        sys_time.frame_time += sys_time.deltaTime;
-
-        if (sys_time.frame_time >= 0.5)
-        {
-            double fps = sys_time.frame_count / sys_time.frame_time;
-            sys_time.frame_count = 0;
-            sys_time.frame_time = 0;
-            std::stringstream ss;
-            ss << sysWin->GetWindowName() << " [fps=" << int(fps) << "]";
-            glfwSetWindowTitle(sysWin->GetWindow(), ss.str().c_str());
-        }
+        sysTime.ProcessTime(sysWin->GetWindow(), glfwGetTime());
 
         ProcessInput(sysWin->GetWindow());
 
-        shaderRotMat = glm::rotate(shaderRotMat, (float)(rotRate * sys_time.current_time * 0.005f), glm::vec3(0, 1, 1));
+        shaderRotMat = glm::rotate(shaderRotMat, (float)(rotRate * sysTime.deltaTime), glm::vec3(0, 1, 1));
 
         // clear the screen
         glClearColor(0.4f, 0.1f, 0.3f, 0);
@@ -224,67 +153,59 @@ inline void Run(void)
 
         /* Draw Begin */
 
-        imgui_layer.GUI_Begin();
-        imgui_layer.Render(sysWindowSize.first, sysWindowSize.second);
-        imgui_layer.GUI_End();
+        hdrBuffer.BindBuffer();
 
         rayMarchShader.Use();
 
-        rayMarchShader.SetVec3("Eye", camera.Position);
-
-        rayMarchShader.SetFloat("SystemTime", sys_time.current_time);
+        rayMarchShader.SetFloat("SystemTime", sysTime.current_time);
         rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
         rayMarchShader.SetFloat("zoom", zoom);
         rayMarchShader.SetMat4("rotMat", shaderRotMat);
 
         rayquad.Render();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());
 
         // draw skybox as last
-        glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
         skyBoxShader.Use();
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
         glm::mat4 view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
         skyBoxShader.SetMat4("view", view);
         skyBoxShader.SetMat4("projection", projection);
-        // skybox cube
-        glBindVertexArray(skyboxVAO);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
-        glDepthFunc(GL_LESS); // set depth function back to default
 
-        /*rayquad.Render();
+        skybox.Render(&cubeMap);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        hdrShader.Use();
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.GetTextureID());*/
+        glBindTexture(GL_TEXTURE_2D, hdrBuffer.m_colorBuffer);
+        hdrShader.SetFloat("exposure", exposure);
+        quadMesh.Render();
 
         /* Draw End */
 
-        // swap in the back buffer
+        // Swap in the back buffer
         glfwSwapBuffers(sysWin->GetWindow());
         glfwPollEvents();
-        sys_time.current_time += sys_time.deltaTime;
+        sysTime.current_time += sysTime.deltaTime;
 
     } while (glfwGetKey(sysWin->GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(sysWin->GetWindow()) == 0);
 
 }
 
 /* Attach with ImGui Element */
-inline void DisplayInfo()
-{
-    ImGui::Text("Time: %.3f sec", glfwGetTime());
-    ImGui::Text("FPS: %.3f", ImGui::GetIO().Framerate);
-
-    //ImGui::Checkbox(": Draw Solid", &draw_solid);
-    //ImGui::SliderFloat3(": Zoom", &zoom, 1.0f, 5.0f);
-    /*ImGui::Button("Reset Center");
-    if (ImGui::Button("Reset Center"))
-    {
-        cube_center = Point(0, 0, -1);
-    }*/
-}
+//inline void DisplayInfo()
+//{
+//    ImGui::Text("Time: %.3f sec", glfwGetTime());
+//    ImGui::Text("FPS: %.3f", ImGui::GetIO().Framerate);
+//
+//    ImGui::Checkbox(": Draw Solid", &draw_solid);
+//    ImGui::SliderFloat3(": Zoom", &zoom, 1.0f, 5.0f);
+//    /*ImGui::Button("Reset Center");
+//    if (ImGui::Button("Reset Center"))
+//    {
+//        cube_center = Point(0, 0, -1);
+//    }*/
+//}
 
 #endif // !H_MISCFUNC
 

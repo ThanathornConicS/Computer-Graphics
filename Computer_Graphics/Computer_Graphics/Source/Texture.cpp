@@ -99,3 +99,4 @@ uint32_t Texture::LoadCubeMap(std::vector<std::string>& faces)
 
     return textureID;
 }
+

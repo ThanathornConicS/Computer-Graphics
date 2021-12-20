@@ -385,8 +385,8 @@ void main()
     color /= float(AA * AA);
 
     // Post-Process
-    color = smoothstep(0.0, 1.0, color);        // Contrast
-    color = pow(color, vec3(0.4545));         //Gamma Correction
+    //color = smoothstep(0.0, 1.0, color);        // Contrast
+    //color = pow(color, vec3(0.4545));         //Gamma Correction
 
     fragColor = vec4(color, 1.0);
 }
