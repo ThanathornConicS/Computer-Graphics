@@ -148,20 +148,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\RayMarchScene.cpp" />
+    <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\HDRBuffer.cpp" />
     <ClCompile Include="Source\Model.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\Camera.cpp" />
-    <ClCompile Include="imgui\backends\imgui_impl_glfw.cpp" />
-    <ClCompile Include="imgui\backends\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="imgui\imgui.cpp" />
-    <ClCompile Include="imgui\imgui_demo.cpp" />
-    <ClCompile Include="imgui\imgui_draw.cpp" />
-    <ClCompile Include="imgui\imgui_tables.cpp" />
-    <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Source\imguiLayer.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClCompile Include="Source\Texture.cpp" />
@@ -170,6 +164,8 @@
     <ClInclude Include="..\Resources\stb_image\stb_image.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
+    <ClInclude Include="Source\RayMarchScene.h" />
+    <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\HDRBuffer.h" />
     <ClInclude Include="Source\Framebuffer.h" />
     <ClInclude Include="Source\Model.h" />
@@ -177,19 +173,9 @@
     <ClInclude Include="Source\Scene.h" />
     <ClInclude Include="Source\Shader.h" />
     <ClInclude Include="Source\Camera.h" />
-    <ClInclude Include="imgui\backends\imgui_impl_glfw.h" />
-    <ClInclude Include="imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="imgui\imconfig.h" />
-    <ClInclude Include="imgui\imgui.h" />
-    <ClInclude Include="imgui\imgui_internal.h" />
-    <ClInclude Include="imgui\imstb_rectpack.h" />
-    <ClInclude Include="imgui\imstb_textedit.h" />
-    <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Source\CubeMesh.h" />
-    <ClInclude Include="Source\imguiLayer.h" />
-    <ClInclude Include="Source\MiscFunc.h" />
     <ClInclude Include="Source\QuadMesh.h" />
     <ClInclude Include="Source\SkyboxMesh.h" />
     <ClInclude Include="Source\SphereMesh.h" />
@@ -205,6 +191,8 @@
     <None Include="Shader\hdrVertex.vert" />
     <None Include="Shader\rayMarch.frag" />
     <None Include="Shader\rayMarch.vert" />
+    <None Include="Shader\skyBox.frag" />
+    <None Include="Shader\skyBox.vert" />
     <None Include="Shader\vertexShader.vert" />
     <None Include="Shader\vertexUI.vert" />
   </ItemGroup>

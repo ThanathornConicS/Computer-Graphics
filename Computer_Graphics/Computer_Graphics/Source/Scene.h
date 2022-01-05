@@ -12,7 +12,7 @@ public:
 	virtual void OnAttach() {}
 	virtual void OnDeAttach() {}
 
-	virtual void OnUpdate() {}
+	virtual void OnUpdate(GLFWwindow* window, Time time) {}
 
 protected:
 	const char* m_debugName = "Default_Scene";

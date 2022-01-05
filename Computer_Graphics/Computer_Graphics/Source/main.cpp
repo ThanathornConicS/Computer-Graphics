@@ -1,7 +1,7 @@
 #include <pch.h>
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 
-#include "MiscFunc.h"
+#include "App.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,14 +20,33 @@ int main(int argc, char* argv[])
     Log::Log::Init();
     L_SYSTEM_INFO("Initializing Log");
 
-    sysWin = &Window::GetInstance();
+    L_SYSTEM_INFO("Initializing Application...");
+    App application;
+    try
+    {
+        application.Init();
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    glfwSetScrollCallback(sysWin->GetWindow(), MouseScrollCallback);
+    L_SYSTEM_INFO("Running the application...");
+    do
+    {
 
-    Run();
+        application.Run();
+
+    } while 
+    (
+        glfwGetKey(application.GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS 
+        && glfwWindowShouldClose(application.GetWindow()) == 0
+    );
 
     L_SYSTEM_INFO("Closing window...");
-    glfwDestroyWindow(sysWin->GetWindow());
+    application.Clean();
+    glfwDestroyWindow(application.GetWindow());
     L_SYSTEM_INFO("System is Shutting down...");
     glfwTerminate();
 
@@ -42,5 +61,5 @@ int main(int argc, char* argv[])
         _CrtDumpMemoryLeaks();
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

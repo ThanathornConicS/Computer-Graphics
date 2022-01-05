@@ -100,13 +100,7 @@ inline void ProcessInput(GLFWwindow* window)
 
 inline void Run(void)
 {
-    std::pair<int, int> sysWindowSize = sysWin->GetWindowSize();
-
     sysTime.time_last = glfwGetTime();
-
-    /*imgui_layer = ImguiLayer(sysWindowSize.first, sysWindowSize.second, sysWin->GetWindow());
-    imgui_layer.Init();
-    imgui_layer.SetFunction(DisplayInfo);*/
 
     Shader skyBoxShader("Shader/skyBox.vert", "Shader/skyBox.frag");
     Shader rayMarchShader("Shader/rayMarch.vert", "Shader/rayMarch.frag");
@@ -173,6 +167,7 @@ inline void Run(void)
 
         skybox.Render(&cubeMap);
 
+        // Render Everything as hdr buffer
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         hdrShader.Use();

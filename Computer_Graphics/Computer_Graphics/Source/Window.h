@@ -5,7 +5,8 @@
 
 #include <pch.h>
 
-#include "Utilities.h"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 /* Initial Value */
 static const int width = 1000;
@@ -38,6 +39,11 @@ public:
 	const char* GetWindowName() const;
 	GLFWwindow* GetWindow() const;
 
+	inline bool GetInitStatus() const 
+	{
+		return m_initStatus;
+	}
+
 protected:
 	Window();
 
@@ -48,6 +54,8 @@ private:
 	int m_xpos, m_ypos;
 
 	const char* m_windowName;
+
+	bool m_initStatus = true;
 
 };
 

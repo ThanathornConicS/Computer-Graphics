@@ -5,14 +5,24 @@
 
 #include "GL/glew.h"
 #include "glm.hpp"
-
+ 
 class Shader
 {
 public:
     uint32_t ID;
     // constructor generates the shader on the fly
     // ------------------------------------------------------------------------
+    Shader(void) 
+        : ID(0)
+    {}
     Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr)
+        : ID(0)
+    {
+        Compile(vertexPath, fragmentPath, geometryPath);
+    }
+    // activate the shader
+    // ------------------------------------------------------------------------
+    void Compile(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr) 
     {
         // 1. retrieve the vertex/fragment source code from filePath
         std::string vertexCode;
@@ -91,10 +101,7 @@ public:
         glDeleteShader(fragment);
         if (geometryPath != nullptr)
             glDeleteShader(geometry);
-
     }
-    // activate the shader
-    // ------------------------------------------------------------------------
     void Use()
     {
         glUseProgram(ID);

@@ -27,7 +27,7 @@ Window::Window()
     if (!m_window)
     {
         L_SYSTEM_ERROR("Error: Failed to open GLFW window, check available version with GLView");
-        return;
+        m_initStatus = false;
     }
 
     glfwMakeContextCurrent(m_window);
@@ -36,18 +36,20 @@ Window::Window()
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK)
+    {
         L_SYSTEM_ERROR("Error: {0}", glewGetErrorString(err));
+        m_initStatus = false;
+    }
 
     glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glfwMakeContextCurrent(m_window);
     glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     glfwSetWindowPos(m_window, m_xpos, m_ypos);
-
-    //glfwSetKeyCallback(m_window, KeyPressedCallback);
-    //glfwSetCursorPosCallback(m_window, CursorPosCallback);
-    //glfwSetScrollCallback(m_window, MouseScrollCallback);
 }
 Window::~Window()
 {}
