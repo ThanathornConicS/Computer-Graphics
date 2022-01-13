@@ -59,6 +59,9 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{4b96768c-1d84-47ce-8423-921128ae6c57}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\icon">
+      <UniqueIdentifier>{3c9a5694-991d-4070-ab53-6446aa1a7f2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -162,6 +165,7 @@
     <ClInclude Include="Source\RayMarchScene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
@@ -194,5 +198,15 @@
     <None Include="Shader\skyBox.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Computer_Graphics.rc">
+      <Filter>Resource Files\icon</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="LearnCG.ico">
+      <Filter>Resource Files\icon</Filter>
+    </Image>
   </ItemGroup>
 </Project>

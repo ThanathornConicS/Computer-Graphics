@@ -171,6 +171,7 @@
     <ClInclude Include="..\Resources\stb_image\stb_image.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Source\RayMarchScene.h" />
     <ClInclude Include="Source\App.h" />
     <ClInclude Include="Source\HDRBuffer.h" />
@@ -202,6 +203,12 @@
     <None Include="Shader\skyBox.vert" />
     <None Include="Shader\vertexShader.vert" />
     <None Include="Shader\vertexUI.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Computer_Graphics.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="LearnCG.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
