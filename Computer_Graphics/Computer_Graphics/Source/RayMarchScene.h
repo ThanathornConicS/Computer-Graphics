@@ -21,10 +21,7 @@ public:
 
 private:
 	void ProcessInput(GLFWwindow* window);
-	inline static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
-	{
-		camera.ProcessMouseScroll(yoffset, zoom);
-	}
+	static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 private:
 	Shader m_skyBoxShader;
@@ -32,8 +29,6 @@ private:
 	Shader m_hdrShader;
 
 	float m_rotRate = 1.0f;
-	float m_zoom = 1.0f;
-
 	float m_exposure = 1.0f;
 
 };

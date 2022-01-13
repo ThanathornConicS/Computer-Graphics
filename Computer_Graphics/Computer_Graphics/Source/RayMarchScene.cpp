@@ -13,19 +13,10 @@
 
 #include "gtc/matrix_transform.hpp"
 
-std::vector<std::string> faces
-{
-    "Assets/CubeMaps/posx.jpg",
-    "Assets/CubeMaps/negx.jpg",
-    "Assets/CubeMaps/posy.jpg",
-    "Assets/CubeMaps/negy.jpg",
-    "Assets/CubeMaps/posz.jpg",
-    "Assets/CubeMaps/negz.jpg"
-};
-Texture cubeMap(faces);
-
 HDRBuffer hdrBuffer;
 QuadMesh quadMesh;
+
+Texture cubeMap;
 
 SkyboxMesh skybox;
 
@@ -35,6 +26,8 @@ glm::mat4 shaderRotMat = glm::mat4(1.0f);
 
 Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 
+float zoom = 1.0f;
+
 
 RayMarchScene::RayMarchScene()
 	: Scene("RayMarched")
@@ -42,11 +35,27 @@ RayMarchScene::RayMarchScene()
 RayMarchScene::~RayMarchScene()
 {}
 
+void RayMarchScene::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    camera.ProcessMouseScroll(yoffset, zoom);
+}
+
 void RayMarchScene::OnAttach()
 {
     m_hdrShader.Compile("Shader/hdrVertex.vert", "Shader/hdrFragment.frag");
     m_rayMarchShader.Compile("Shader/rayMarch.vert", "Shader/rayMarch.frag");
     m_skyBoxShader.Compile("Shader/skyBox.vert", "Shader/skyBox.frag");
+
+    std::vector<std::string> faces
+    {
+        "Assets/CubeMaps/posx.jpg",
+        "Assets/CubeMaps/negx.jpg",
+        "Assets/CubeMaps/posy.jpg",
+        "Assets/CubeMaps/negy.jpg",
+        "Assets/CubeMaps/posz.jpg",
+        "Assets/CubeMaps/negz.jpg"
+    };
+    cubeMap.LoadCubeMap(faces);
 
     hdrBuffer.CreateBuffer();
     quadMesh.GenVertexObject();
@@ -75,7 +84,7 @@ void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
 
     m_rayMarchShader.SetFloat("SystemTime", time.current_time);
     m_rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
-    m_rayMarchShader.SetFloat("zoom", m_zoom);
+    m_rayMarchShader.SetFloat("zoom", zoom);
     m_rayMarchShader.SetMat4("rotMat", shaderRotMat);
 
     rayquad.Render();

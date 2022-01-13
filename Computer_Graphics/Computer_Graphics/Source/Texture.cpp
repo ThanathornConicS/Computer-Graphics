@@ -72,9 +72,8 @@ uint32_t Texture::LoadTexture(const char* filepath, bool enableGamma)
 // -------------------------------------------------------
 uint32_t Texture::LoadCubeMap(std::vector<std::string>& faces) 
 {
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    glGenTextures(1, &m_textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureID);
 
     int width, height, nrChannels;
     for (unsigned int i = 0; i < faces.size(); i++)
@@ -97,6 +96,6 @@ uint32_t Texture::LoadCubeMap(std::vector<std::string>& faces)
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    return textureID;
+    return m_textureID;
 }
 
