@@ -21,6 +21,14 @@ So, if you want to download this project, please bare with me and download all o
 The executable is in the ***"Computer_Graphics\Build\Release-x64" Directory***.
 Or build the program using Visual Studio 2019 by open the solution file.
 
+## TODO
+- [x] Create Scene for easier scene switching
+- [ ] Ray-Tracing function
+- [ ] Create Package for easier installing
+- [ ] Implement Vulkan and replace all OpenGL
+- [ ] Documentation for easier useage
+- [ ] More user-friendly code
+
 ## References
 - Raymarched Rendering Technique: [Youtube: The Art of Code](https://www.youtube.com/playlist?list=PL55EZRXbeBIEYJ0cvSggwtMnl-d1N4Sob)
 - Cubemaps: [Website: LearnOpenGL](https://learnopengl.com/Advanced-OpenGL/Cubemaps)
