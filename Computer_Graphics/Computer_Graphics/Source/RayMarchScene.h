@@ -15,13 +15,14 @@ public:
 	virtual ~RayMarchScene();
 
 	void OnAttach() override;
-	void OnDeAttach() override;
+	void OnDetach() override;
 
 	void OnUpdate(GLFWwindow* window, Time time) override;
 
 private:
 	void ProcessInput(GLFWwindow* window);
 	static void MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
+	static void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 private:
 	Shader m_skyBoxShader;

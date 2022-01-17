@@ -28,6 +28,8 @@ Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 
 float zoom = 1.0f;
 
+int shapeSelected = 1;
+
 
 RayMarchScene::RayMarchScene()
 	: Scene("RayMarched")
@@ -39,9 +41,20 @@ void RayMarchScene::MouseScrollCallback(GLFWwindow* window, double xoffset, doub
 {
     camera.ProcessMouseScroll(yoffset, zoom);
 }
+void RayMarchScene::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
+        shapeSelected = 1;
+    else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
+        shapeSelected = 2;
+    else if (key == GLFW_KEY_3 && action == GLFW_PRESS)
+        shapeSelected = 3;
+}
 
 void RayMarchScene::OnAttach()
 {
+    L_INFO("Attaching {0}...", this->m_debugName);
+
     m_hdrShader.Compile("Shader/hdrVertex.vert", "Shader/hdrFragment.frag");
     m_rayMarchShader.Compile("Shader/rayMarch.vert", "Shader/rayMarch.frag");
     m_skyBoxShader.Compile("Shader/skyBox.vert", "Shader/skyBox.frag");
@@ -66,13 +79,24 @@ void RayMarchScene::OnAttach()
 
     m_rayMarchShader.Use();
     rayquad.GenVertexObject();
-}
-void RayMarchScene::OnDeAttach()
-{
 
+    printf("Controls:\n");
+    printf("    1: Rhombic Dodecahedron\n");
+    printf("    2: Cube\n");
+    printf("    3: Triangle Prism\n");
+    printf("    Scroll Wheel: Zoom In-Out\n");
+    printf("    D: + Rotation Rate\n");
+    printf("    A: - Rotation Rate\n");
+    printf("    Pg Up: + Exposure\n");
+    printf("    Pg Down: - Exposure\n");
+}
+void RayMarchScene::OnDetach()
+{
+    L_INFO("Detaching {0}...", this->m_debugName);
 }
 void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
 {
+    glfwSetKeyCallback(window, KeyCallback);
     glfwSetScrollCallback(window, MouseScrollCallback);
     ProcessInput(window);
 
@@ -86,6 +110,7 @@ void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
     m_rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
     m_rayMarchShader.SetFloat("zoom", zoom);
     m_rayMarchShader.SetMat4("rotMat", shaderRotMat);
+    m_rayMarchShader.SetInt("shape", shapeSelected);
 
     rayquad.Render();
 
@@ -110,12 +135,17 @@ void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
 
 void RayMarchScene::ProcessInput(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        m_rotRate += 0.1f;
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        m_rotRate -= 0.1f;
+        m_rotRate += 0.01f;
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        m_rotRate -= 0.01f;
     if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
         m_exposure += 0.01f;
     if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
         m_exposure -= 0.01f;
+
+    if (m_rotRate < 0)
+        m_rotRate = 0;
+    if (m_exposure < 0)
+        m_exposure = 0;
 }

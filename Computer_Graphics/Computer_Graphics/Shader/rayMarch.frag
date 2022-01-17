@@ -31,6 +31,8 @@ in vec2 texCoord;
 
 out vec4 fragColor;
 
+uniform int shape;
+
 uniform float SystemTime;
 uniform vec2 SystemResolution;
 uniform vec3 Eye;
@@ -218,14 +220,18 @@ mat3 RotateZ(float theta)
 float GetDist(vec3 p) 
 {
     vec4 center = vec4(p - vec3(0, 1, 0), 1.0);
-
     center *= rotMat;
     
-    float rhombic = sdRhombicDodeca(center.xyz, 3);
-    //float hexPrism = sdHexPrism(p - vec3(-2, 1, 0), vec2(1));
-    
-    return rhombic;
-    //return unionSDF(rhombic, hexPrism);
+    float primitive;
+
+    if (shape == 1)
+        primitive = sdRhombicDodeca(center.xyz, 3);
+    else if (shape == 2)
+        primitive = sdBox(center.xyz, vec3(1)); 
+    else if (shape == 3)
+        primitive = sdTriPrism(center.xyz, vec2(1, 2));
+
+    return primitive;
 }
 
 float RayMarch(vec3 ro, vec3 rd, float side) 

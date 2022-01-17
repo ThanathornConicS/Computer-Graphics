@@ -43,7 +43,7 @@ void App::Run()
 }
 void App::Clean()
 {
-	m_currentScene->OnDeAttach();
+	m_currentScene->OnDetach();
 
 	m_scenes.clear();
 }

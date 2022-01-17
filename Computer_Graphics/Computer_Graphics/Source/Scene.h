@@ -10,7 +10,7 @@ public:
 	virtual ~Scene() {}
 
 	virtual void OnAttach() {}
-	virtual void OnDeAttach() {}
+	virtual void OnDetach() {}
 
 	virtual void OnUpdate(GLFWwindow* window, Time time) {}
 
