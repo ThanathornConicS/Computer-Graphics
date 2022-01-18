@@ -18,6 +18,8 @@
 
 #include "Log.h"
 
+#include "src/KeyCode.h"
+
 #ifdef _DEBUG
 	#define _CRTDBG_MAP_ALLOC //to get more details
 	#define DBG_NEW new (_NORMAL_BLOCK, __FILE__, __LINE__)

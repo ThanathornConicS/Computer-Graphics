@@ -26,7 +26,7 @@ struct SkyboxMesh
         }
     }
 
-    inline void Render(Texture* cubeMap = nullptr)
+    inline void Render(vlr::Texture* cubeMap = nullptr)
     {
         GenVertexObject();
         // skybox cube

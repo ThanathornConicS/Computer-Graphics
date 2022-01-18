@@ -44,9 +44,6 @@
     <Filter Include="CG\AssetsLoader\ModelLoader">
       <UniqueIdentifier>{26d006cf-86dd-4664-a7aa-bca2ac060d64}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CG\AssetsLoader\ImageLoader">
-      <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CG\Time">
       <UniqueIdentifier>{e36881de-c9e8-4569-b36a-6252da2fe31b}</UniqueIdentifier>
     </Filter>
@@ -62,9 +59,24 @@
     <Filter Include="Resource Files\icon">
       <UniqueIdentifier>{3c9a5694-991d-4070-ab53-6446aa1a7f2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="OpenGL\BatchRendering">
+      <UniqueIdentifier>{7f5d1406-3fc6-4744-a1af-2243da5e35cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\RayMarched">
+      <UniqueIdentifier>{064c3875-0ec3-4bab-bff7-360177b0d512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\GeneralTester">
+      <UniqueIdentifier>{c1f95224-2d67-4572-942b-65ec13e4ab96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\AssetsLoader\TextureLoader\ImageLoader">
+      <UniqueIdentifier>{a6370fd7-45fd-4c8d-a7d4-706a83a3bdbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Input">
+      <UniqueIdentifier>{5488a315-d20e-44f8-ac7e-813342178b61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>CG\Main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -73,29 +85,35 @@
     <ClCompile Include="Log.cpp">
       <Filter>Resource Files\Log</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Window.cpp">
+    <ClCompile Include="src\Window.cpp">
       <Filter>OpenGL\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Camera.cpp">
+    <ClCompile Include="src\Camera.cpp">
       <Filter>CG\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Shader.cpp">
+    <ClCompile Include="src\Shader.cpp">
       <Filter>CG\ShaderLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Texture.cpp">
+    <ClCompile Include="src\Texture.cpp">
       <Filter>CG\AssetsLoader\TextureLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Model.cpp">
+    <ClCompile Include="src\Model.cpp">
       <Filter>CG\AssetsLoader\ModelLoader</Filter>
     </ClCompile>
-    <ClCompile Include="Source\HDRBuffer.cpp">
+    <ClCompile Include="src\HDRBuffer.cpp">
       <Filter>OpenGL\Framebuffer</Filter>
     </ClCompile>
-    <ClCompile Include="Source\App.cpp">
+    <ClCompile Include="src\Application.cpp">
       <Filter>CG</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RayMarchScene.cpp">
-      <Filter>Scenes</Filter>
+    <ClCompile Include="src\RayMarchScene.cpp">
+      <Filter>Scenes\RayMarched</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Test.cpp">
+      <Filter>Scenes\GeneralTester</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowsInput.cpp">
+      <Filter>OpenGL\Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,67 +123,84 @@
     <ClInclude Include="Log.h">
       <Filter>Resource Files\Log</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Utilities.h">
+    <ClInclude Include="src\Utilities.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Window.h">
+    <ClInclude Include="src\Window.h">
       <Filter>OpenGL\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Source\CubeMesh.h">
+    <ClInclude Include="src\CubeMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Camera.h">
+    <ClInclude Include="src\Camera.h">
       <Filter>CG\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Source\QuadMesh.h">
+    <ClInclude Include="src\QuadMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Shader.h">
+    <ClInclude Include="src\Shader.h">
       <Filter>CG\ShaderLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image.h">
-      <Filter>CG\AssetsLoader\ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\TextureLoader\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h">
-      <Filter>CG\AssetsLoader\ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\TextureLoader\ImageLoader</Filter>
     </ClInclude>
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h">
-      <Filter>CG\AssetsLoader\ImageLoader</Filter>
+      <Filter>CG\AssetsLoader\TextureLoader\ImageLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SphereMesh.h">
+    <ClInclude Include="src\SphereMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Texture.h">
+    <ClInclude Include="src\Texture.h">
       <Filter>CG\AssetsLoader\TextureLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Model.h">
+    <ClInclude Include="src\Model.h">
       <Filter>CG\AssetsLoader\ModelLoader</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RayQuadMesh.h">
+    <ClInclude Include="src\RayQuadMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Time.h">
+    <ClInclude Include="src\Time.h">
       <Filter>CG\Time</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Scene.h">
+    <ClInclude Include="src\Scene.h">
       <Filter>CG\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\SkyboxMesh.h">
+    <ClInclude Include="src\SkyboxMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Framebuffer.h">
+    <ClInclude Include="src\Framebuffer.h">
       <Filter>OpenGL\Framebuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\HDRBuffer.h">
+    <ClInclude Include="src\HDRBuffer.h">
       <Filter>OpenGL\Framebuffer</Filter>
     </ClInclude>
-    <ClInclude Include="Source\App.h">
+    <ClInclude Include="src\Application.h">
       <Filter>CG</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RayMarchScene.h">
-      <Filter>Scenes</Filter>
+    <ClInclude Include="src\Batch.h">
+      <Filter>OpenGL\BatchRendering</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\RayMarchScene.h">
+      <Filter>Scenes\RayMarched</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Test.h">
+      <Filter>Scenes\GeneralTester</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyCode.h">
+      <Filter>CG\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
+      <Filter>CG\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowsInput.h">
+      <Filter>OpenGL\Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">

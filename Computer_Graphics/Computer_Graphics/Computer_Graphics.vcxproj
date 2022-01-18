@@ -24,6 +24,7 @@
     <ProjectGuid>{cb3d6263-7328-41a2-94e2-883879950be7}</ProjectGuid>
     <RootNamespace>ComputerGraphics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Veleroid</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -155,42 +156,49 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\RayMarchScene.cpp" />
-    <ClCompile Include="Source\App.cpp" />
-    <ClCompile Include="Source\HDRBuffer.cpp" />
-    <ClCompile Include="Source\Model.cpp" />
-    <ClCompile Include="Source\Shader.cpp" />
-    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="src\RayMarchScene.cpp" />
+    <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\HDRBuffer.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Source\main.cpp" />
-    <ClCompile Include="Source\Window.cpp" />
-    <ClCompile Include="Source\Texture.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\Window.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\WindowsInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Resources\stb_image\stb_image.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_resize.h" />
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Source\RayMarchScene.h" />
-    <ClInclude Include="Source\App.h" />
-    <ClInclude Include="Source\HDRBuffer.h" />
-    <ClInclude Include="Source\Framebuffer.h" />
-    <ClInclude Include="Source\Model.h" />
-    <ClInclude Include="Source\RayQuadMesh.h" />
-    <ClInclude Include="Source\Scene.h" />
-    <ClInclude Include="Source\Shader.h" />
-    <ClInclude Include="Source\Camera.h" />
+    <ClInclude Include="src\Batch.h" />
+    <ClInclude Include="src\Input.h" />
+    <ClInclude Include="src\KeyCode.h" />
+    <ClInclude Include="src\RayMarchScene.h" />
+    <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\HDRBuffer.h" />
+    <ClInclude Include="src\Framebuffer.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\RayQuadMesh.h" />
+    <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Source\CubeMesh.h" />
-    <ClInclude Include="Source\QuadMesh.h" />
-    <ClInclude Include="Source\SkyboxMesh.h" />
-    <ClInclude Include="Source\SphereMesh.h" />
-    <ClInclude Include="Source\Time.h" />
-    <ClInclude Include="Source\Utilities.h" />
-    <ClInclude Include="Source\Window.h" />
-    <ClInclude Include="Source\Texture.h" />
+    <ClInclude Include="src\CubeMesh.h" />
+    <ClInclude Include="src\QuadMesh.h" />
+    <ClInclude Include="src\SkyboxMesh.h" />
+    <ClInclude Include="src\SphereMesh.h" />
+    <ClInclude Include="src\Test.h" />
+    <ClInclude Include="src\Time.h" />
+    <ClInclude Include="src\Utilities.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag" />
