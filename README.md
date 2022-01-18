@@ -26,7 +26,7 @@ Or build the program using Visual Studio 2019 by open the solution file.
 - [ ] Ray-Tracing function
 - [ ] Create Package for easier installing
 - [ ] Implement Vulkan and replace all OpenGL
-- [ ] Documentation for easier useage
+- [ ] Documentation for easier usage
 - [ ] More user-friendly code
 
 ## References
