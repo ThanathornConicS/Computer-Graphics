@@ -1,7 +1,7 @@
 #include <pch.h>
 //#define STB_IMAGE_IMPLEMENTATION
 
-#include "App.h"
+#include "Application.h"
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     L_SYSTEM_INFO("Initializing Log");
 
     L_SYSTEM_INFO("Initializing Application...");
-    App application;
+    vlr::Application application;
     try
     {
         application.Init();
@@ -35,7 +35,6 @@ int main(int argc, char* argv[])
     L_SYSTEM_INFO("Running the application...");
     do
     {
-
         application.Run();
 
     } while 
@@ -44,8 +43,8 @@ int main(int argc, char* argv[])
         && glfwWindowShouldClose(application.GetWindow()) == 0
     );
 
-    L_SYSTEM_INFO("Closing window...");
     application.Clean();
+    L_SYSTEM_INFO("Closing window...");
     glfwDestroyWindow(application.GetWindow());
     L_SYSTEM_INFO("System is Shutting down...");
     glfwTerminate();

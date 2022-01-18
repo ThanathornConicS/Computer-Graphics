@@ -9,6 +9,8 @@ public:
 	void CreateBuffer() override;
 	void BindBuffer() override;
 
+	void RenderBuffer();
+
 private:
 	void AttachBuffer() override;
 

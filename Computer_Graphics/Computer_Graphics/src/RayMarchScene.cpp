@@ -15,19 +15,14 @@
 
 HDRBuffer hdrBuffer;
 QuadMesh quadMesh;
-
-Texture cubeMap;
-
+vlr::Texture cubeMap;
 SkyboxMesh skybox;
-
 RayQuadMesh rayquad;
 
 glm::mat4 shaderRotMat = glm::mat4(1.0f);
-
-Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
+vlr::Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 
 float zoom = 1.0f;
-
 int shapeSelected = 1;
 
 
@@ -36,20 +31,6 @@ RayMarchScene::RayMarchScene()
 {}
 RayMarchScene::~RayMarchScene()
 {}
-
-void RayMarchScene::MouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset)
-{
-    camera.ProcessMouseScroll(yoffset, zoom);
-}
-void RayMarchScene::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_1 && action == GLFW_PRESS)
-        shapeSelected = 1;
-    else if (key == GLFW_KEY_2 && action == GLFW_PRESS)
-        shapeSelected = 2;
-    else if (key == GLFW_KEY_3 && action == GLFW_PRESS)
-        shapeSelected = 3;
-}
 
 void RayMarchScene::OnAttach()
 {
@@ -94,19 +75,17 @@ void RayMarchScene::OnDetach()
 {
     L_INFO("Detaching {0}...", this->m_debugName);
 }
-void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
+void RayMarchScene::OnUpdate(vlr::Time time)
 {
-    glfwSetKeyCallback(window, KeyCallback);
-    glfwSetScrollCallback(window, MouseScrollCallback);
-    ProcessInput(window);
+    ProcessInput();
 
-    shaderRotMat = glm::rotate(shaderRotMat, (float)(m_rotRate * time.deltaTime), glm::vec3(0, 1, 1));
+    shaderRotMat = glm::rotate(shaderRotMat, static_cast<float>(m_rotRate * time.deltaTime), glm::vec3(0, 1, 1));
 
     hdrBuffer.BindBuffer();
 
     m_rayMarchShader.Use();
 
-    m_rayMarchShader.SetFloat("SystemTime", time.current_time);
+    m_rayMarchShader.SetFloat("SystemTime", static_cast<float>(time.current_time));
     m_rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
     m_rayMarchShader.SetFloat("zoom", zoom);
     m_rayMarchShader.SetMat4("rotMat", shaderRotMat);
@@ -124,26 +103,36 @@ void RayMarchScene::OnUpdate(GLFWwindow* window, Time time)
     skybox.Render(&cubeMap);
 
     // Render Everything as hdr buffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_hdrShader.Use();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, hdrBuffer.m_colorBuffer);
+    hdrBuffer.RenderBuffer();
     m_hdrShader.SetFloat("exposure", m_exposure);
     quadMesh.Render();
 }
 
-void RayMarchScene::ProcessInput(GLFWwindow* window)
+void RayMarchScene::ProcessInput()
 {
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    if (m_input.IsKeyPressed(VLR_KEY_1))
+        shapeSelected = 1;
+    else if (m_input.IsKeyPressed(VLR_KEY_2))
+        shapeSelected = 2;
+    else if (m_input.IsKeyPressed(VLR_KEY_3))
+        shapeSelected = 3;
+
+    if (m_input.IsKeyPressed(VLR_KEY_W))
+        zoom += 0.1f;
+    if (m_input.IsKeyPressed(VLR_KEY_S))
+        zoom -= 0.1f;
+    if (m_input.IsKeyPressed(VLR_KEY_D))
         m_rotRate += 0.01f;
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    if (m_input.IsKeyPressed(VLR_KEY_A))
         m_rotRate -= 0.01f;
-    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+    if (m_input.IsKeyPressed(VLR_KEY_PAGE_UP))
         m_exposure += 0.01f;
-    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+    if (m_input.IsKeyPressed(VLR_KEY_PAGE_DOWN))
         m_exposure -= 0.01f;
 
+    if (zoom < 0)
+        zoom = 0;
     if (m_rotRate < 0)
         m_rotRate = 0;
     if (m_exposure < 0)
