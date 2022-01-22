@@ -10,6 +10,15 @@ namespace vlr
 		ImportModel(filepath);
 	}
 
+	Model::~Model()
+	{
+		m_vertices.clear();
+		m_uv.clear();
+		m_normals.clear();
+
+		model_vertices.clear();
+	}
+
 	void Model::ImportModel(const char* filepath)
 	{
 		L_SYSTEM_TRACE("Model: Loading {0}", filepath);
@@ -107,6 +116,10 @@ namespace vlr
 		}
 
 		fclose(file);
+
+		temp_vertices.clear();
+		temp_uvs.clear();
+		temp_normals.clear();
 	}
 
 	void Model::Render()
@@ -118,7 +131,7 @@ namespace vlr
 			glBindVertexArray(modelVAO);
 			glBindBuffer(GL_ARRAY_BUFFER, modelVBO);
 			glBufferData(GL_ARRAY_BUFFER, model_vertices.size() * sizeof(float), &model_vertices[0], GL_STATIC_DRAW);
-			float stride = (3 + 2 + 3) * sizeof(float);
+			GLsizei stride = (3 + 2 + 3) * sizeof(float);
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
 			glEnableVertexAttribArray(1);
@@ -127,6 +140,6 @@ namespace vlr
 			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 		}
 		glBindVertexArray(modelVAO);
-		glDrawArrays(GL_TRIANGLES, 0, model_vertices.size());
+		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model_vertices.size()));
 	}
 }

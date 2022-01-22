@@ -1,28 +1,26 @@
 #include <pch.h>
-#include "WindowsInput.h"
+#include "Input.h"
 
 #include "Window.h"
 #include "GLFW/glfw3.h"
 
 namespace vlr
 {
-	Input* Input::s_instance = new WindowsInput();
-
-	bool WindowsInput::IsKeyPressedImpl(int keycode)
+	bool Input::IsKeyPressed(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
 		auto state = glfwGetKey(window, keycode);
 
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
-	bool WindowsInput::IsKeyReleasedImpl(int keycode)
+	bool Input::IsKeyReleased(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
 		auto state = glfwGetKey(window, keycode);
 
 		return state == GLFW_RELEASE;
 	}
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool Input::IsMouseButtonPressed(int button)
 	{
 		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
 		auto state = glfwGetMouseButton(window, button);
@@ -30,23 +28,23 @@ namespace vlr
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	glm::vec2 Input::GetMousePosition()
 	{
 		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
 		double xPos, yPos;
 		glfwGetCursorPos(window, &xPos, &yPos);
 
-		return { xPos, yPos };
+		return glm::vec2(xPos, yPos);
 	}
 
-	float WindowsInput::GetMouseXImpl()
+	float Input::GetMouseX()
 	{
-		std::pair<float, float> pair = GetMousePositionImpl();
-		return pair.first;
+		glm::vec2 pair = GetMousePosition();
+		return pair.x;
 	}
-	float WindowsInput::GetMouseYImpl()
+	float Input::GetMouseY()
 	{
-		std::pair<float, float> pair = GetMousePositionImpl();
-		return pair.second;
+		glm::vec2 pair = GetMousePosition();
+		return pair.y;
 	}
 }

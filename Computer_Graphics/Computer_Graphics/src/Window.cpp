@@ -4,6 +4,7 @@
 namespace vlr
 {
     Window* Window::s_instance = nullptr;
+    int Window::m_instanceCounter = 0;
 
     Window::Window()
     {

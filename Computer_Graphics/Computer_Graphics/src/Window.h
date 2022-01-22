@@ -25,7 +25,21 @@ namespace vlr
 			if (!s_instance)
 				s_instance = new Window();
 
+			AddRef();
+			//L_SYSTEM_TRACE("Adding\n\tWindow Instance: {0}", m_instanceCounter);
+
 			return *s_instance;
+		}
+		inline static void ReleaseInstance() 
+		{
+			RemoveRef();
+			//L_SYSTEM_TRACE("Removing\n\tWindow Instance: {0}", m_instanceCounter);
+
+			if (m_instanceCounter == 0 && s_instance) 
+			{
+				delete s_instance;
+				s_instance = nullptr;
+			}
 		}
 		virtual ~Window();
 
@@ -53,6 +67,8 @@ namespace vlr
 
 	private:
 		static Window* s_instance;
+		static int m_instanceCounter;
+
 		GLFWwindow* m_window = nullptr;
 		int m_width, m_height;
 		int m_xpos, m_ypos;
@@ -61,6 +77,8 @@ namespace vlr
 
 		bool m_initStatus = true;
 
+		inline static void AddRef() { ++m_instanceCounter; }
+		inline static void RemoveRef() { --m_instanceCounter; }
 	};
 }
 

@@ -2,7 +2,7 @@
 #define APP_H
 
 #include "Window.h"
-#include "WindowsInput.h"
+#include "Input.h"
 #include "Time.h"
 
 #include "Scene.h"
@@ -36,8 +36,6 @@ namespace vlr
 		std::vector<Scene*> m_scenes;
 		Scene* m_currentScene;
 		int m_sceneAmount = 0;
-
-		WindowsInput m_input;
 	};
 }
 

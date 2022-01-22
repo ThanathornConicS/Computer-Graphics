@@ -3,7 +3,7 @@
 
 #include "Shader.h"
 #include "Time.h"
-#include "WindowsInput.h"
+#include "Input.h"
 
 namespace vlr
 {
@@ -22,6 +22,7 @@ namespace vlr
 
 	protected:
 		const char* m_debugName = "Default_Scene";
+		Input m_input;
 
 	private:
 

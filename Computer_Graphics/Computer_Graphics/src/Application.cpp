@@ -19,14 +19,12 @@ namespace vlr
 	{
 		InitWindow();
 
-		m_scenes.resize(MAX_SCENE);
-
-		m_scenes.emplace(m_scenes.begin(), new Test());
-		m_scenes.emplace(m_scenes.begin() + 1, new RayMarchScene());
+		m_scenes.push_back(new Test());
+		m_scenes.push_back(new RayMarchScene());
 
 		m_time.time_last = glfwGetTime();
 
-		m_currentScene = m_scenes[1];
+		m_currentScene = m_scenes[0];
 		m_currentScene->OnAttach();
 	}
 	void Application::Run()
@@ -51,7 +49,11 @@ namespace vlr
 	{
 		m_currentScene->OnDetach();
 
+		for (auto scene : m_scenes)
+			delete scene;
 		m_scenes.clear();
+
+		m_systemWindow->ReleaseInstance();
 	}
 
 #pragma endregion

@@ -63,6 +63,11 @@ namespace vlr
                 }
             }
         }
+
+        GLint FindUniformLocation(const std::string& uni_name) const;
+
+    private:
+        mutable std::unordered_map<std::string, GLint> m_uniformLocationCache;
     };
 }
 

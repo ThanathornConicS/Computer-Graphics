@@ -198,8 +198,8 @@
     <ClInclude Include="src\Input.h">
       <Filter>CG\Input</Filter>
     </ClInclude>
-    <ClInclude Include="src\WindowsInput.h">
-      <Filter>OpenGL\Window</Filter>
+    <ClInclude Include="src\MouseCode.h">
+      <Filter>CG\Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

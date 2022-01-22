@@ -12,6 +12,8 @@ namespace vlr
 	public:
 		Model(void);
 		Model(const char* filepath);
+		~Model();
+
 		void ImportModel(const char* filepath);
 		void Render();
 

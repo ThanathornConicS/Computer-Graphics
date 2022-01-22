@@ -15,9 +15,7 @@ public:
 	void OnUpdate(vlr::Time time) override;
 
 private:
-
-
-private:
+	vlr::Shader m_shader;
 
 };
 

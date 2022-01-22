@@ -1,5 +1,4 @@
 #include <pch.h>
-//#define STB_IMAGE_IMPLEMENTATION
 
 #include "Application.h"
 
@@ -43,20 +42,24 @@ int main(int argc, char* argv[])
         && glfwWindowShouldClose(application.GetWindow()) == 0
     );
 
+    //int* lol = new int();
+
     application.Clean();
     L_SYSTEM_INFO("Closing window...");
-    glfwDestroyWindow(application.GetWindow());
+    //glfwDestroyWindow(application.GetWindow());
     L_SYSTEM_INFO("System is Shutting down...");
     glfwTerminate();
 
     _CrtMemCheckpoint(&sNew); //take a snapshot 
     if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
     {
-        OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
+        _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+        _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+        OutputDebugString(L"-----------_CrtMemDumpStatistics ---------\n");
         _CrtMemDumpStatistics(&sDiff);
         /*OutputDebugString(L"-----------_CrtMemDumpAllObjectsSince ---------");
         _CrtMemDumpAllObjectsSince(&sOld);*/
-        OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------");
+        OutputDebugString(L"-----------_CrtDumpMemoryLeaks ---------\n");
         _CrtDumpMemoryLeaks();
     }
 
