@@ -1,15 +1,10 @@
-#version 330 core
-out vec4 FragColor;
+#version 450 core
 
-in VS_OUT {
-    vec3 FragPos;
-    vec3 Normal;
-    vec2 TexCoords;
-} fs_in;
+layout (location = 0) out vec4 FragColor;
 
-vec3 objectColor = vec3(0.0);
+uniform vec4 color;
 
 void main()
-{      
-    FragColor = vec4(objectColor, 1.0);
+{
+	FragColor = color;
 }

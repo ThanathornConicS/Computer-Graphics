@@ -1,7 +1,9 @@
-#ifndef TEST_H
-#define TEST_H
+#pragma once
 
 #include "Scene.h"
+#include "VLRCore.h"
+
+#include "ParticleSystem.h"
 
 class Test : public vlr::Scene
 {
@@ -15,9 +17,10 @@ public:
 	void OnUpdate(vlr::Time time) override;
 
 private:
-	vlr::Shader m_shader;
+	vlr::Camera m_camera;
+	vlr::ParticleProps m_particle;
+	vlr::ParticleSystem m_particleSystem;
 
 };
 
-#endif // !TEST_H
 

@@ -74,6 +74,15 @@
     <Filter Include="CG\Input">
       <UniqueIdentifier>{5488a315-d20e-44f8-ac7e-813342178b61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="CG\Utils">
+      <UniqueIdentifier>{fecc0a46-343c-48e6-a6d5-2ac5494e3867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Particles">
+      <UniqueIdentifier>{2bc8f4d5-f86b-4fdf-9651-d105ade61b75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\GeneralTester\PhysicStuff">
+      <UniqueIdentifier>{f8cc03d3-bd83-4917-9277-b54022c1f1f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -114,6 +123,12 @@
     </ClCompile>
     <ClCompile Include="src\WindowsInput.cpp">
       <Filter>OpenGL\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Random.cpp">
+      <Filter>CG\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>CG\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +215,18 @@
     </ClInclude>
     <ClInclude Include="src\MouseCode.h">
       <Filter>CG\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Random.h">
+      <Filter>CG\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VLRCore.h">
+      <Filter>CG</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleSystem.h">
+      <Filter>CG\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physic.h">
+      <Filter>Scenes\GeneralTester\PhysicStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,9 @@ namespace vlr
         // ------------------------------------------------------------------------
         Shader(void);
         Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+
+        static Shader* CompileFromText(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
+
         // activate the shader
         void Compile(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
         void Use();

@@ -5,6 +5,7 @@
 
 #include "glm.hpp"
 #include "KeyCode.h"
+#include "MouseCode.h"
 
 namespace vlr
 {

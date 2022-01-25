@@ -29,7 +29,7 @@ namespace vlr
 	}
 	void Application::Run()
 	{
-		glClearColor(0.6196f, 0.9333f, 0.9451f, 1.0f);
+		glClearColor(0.2196f, 0.5333f, 0.5451f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_time.ProcessTime(m_systemWindow->GetWindow(), glfwGetTime());

@@ -11,6 +11,14 @@ namespace vlr
     {
         Compile(vertexPath, fragmentPath, geometryPath);
     }
+
+    Shader* Shader::CompileFromText(const char* vertexPath, const char* fragmentPath, const char* geometryPath)
+    {
+        Shader* shader = new Shader();
+        shader->Compile(vertexPath, fragmentPath, geometryPath);
+        return shader;
+    }
+
     // activate the shader
     // ------------------------------------------------------------------------
     void Shader::Compile(const char* vertexPath, const char* fragmentPath, const char* geometryPath)

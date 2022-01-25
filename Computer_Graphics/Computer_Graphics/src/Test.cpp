@@ -1,13 +1,27 @@
 #include "pch.h"
 #include "Test.h"
 
-#include "Camera.h"
-#include "CubeMesh.h"
+#include "Physic.h"
 
-CubeMesh cube;
+CubeMesh cube[10];
+vlr::Shader shader;
 
-glm::mat4 model = glm::mat4(1.0f);
-vlr::Camera camera0(glm::vec3(0.0f, 0.0f, 3.0f));
+vlr::Camera camera0(glm::vec3(0.0f, 0.0f, 10.0f));
+
+glm::vec3 cubePositions[] = 
+{
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
 
 Test::Test()
 	: Scene("GeneralTesting")
@@ -19,9 +33,24 @@ void Test::OnAttach()
 {
 	L_INFO("Attaching {0}...", this->m_debugName);
 
-	m_shader.Compile("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	cube.GenVertexObject();
+	shader.Compile("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
+
+	for (int i = 0; i < 10; i++)
+		cube[i].GenVertexObject();
+
+	DiiferentialEquation();
+
+	//// Init here
+	/*m_particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
+	m_particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
+	m_particle.SizeBegin = 0.5f, m_particle.SizeVariation = 0.3f, m_particle.SizeEnd = 0.0f;
+	m_particle.LifeTime = 1.0f;
+	m_particle.Velocity = { 0.0f, 0.0f };
+	m_particle.VelocityVariation = { 3.0f, 1.0f };
+	m_particle.Position = { 0.0f, 0.0f };*/
 }
 void Test::OnDetach()
 {
@@ -30,22 +59,46 @@ void Test::OnDetach()
 
 void Test::OnUpdate(vlr::Time time)
 {	
-	glm::vec2 mousePos = m_input.GetMousePosition();
-	L_INFO("X: {0}	Y: {1}", mousePos.x, mousePos.y);
+	shader.Use();
 
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
-	//model = glm::scale(model, glm::vec3(0.2));
-	model = glm::rotate(model, 60.0f, glm::vec3(0, 1, 1));
-
-	m_shader.Use();
-
+	// pass projection matrix to shader (note that in this case it could change every frame)
 	glm::mat4 projection = glm::perspective(glm::radians(camera0.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-	m_shader.SetMat4("projection", projection);
-	glm::mat4 view = glm::mat4(glm::mat3(camera0.GetViewMatrix())); // remove translation from the view matrix
-	m_shader.SetMat4("view", view);
+	shader.SetMat4("proj", projection);
 
-	m_shader.SetMat4("model", model);
-	m_shader.SetBool("inverse_normals", false);
+	// camera/view transformation
+	glm::mat4 view = camera0.GetViewMatrix();
+	shader.SetMat4("view", view);
 
-	cube.Render();
+	shader.SetVec4("color", glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		// calculate the model matrix for each object and pass it to shader before drawing
+		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		model = glm::translate(model, cubePositions[i]);
+		float angle = 20.0f * i;
+		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+		shader.SetMat4("model", model);
+
+		cube[i].Render();
+	}
+
+	//if (m_input.IsMouseButtonPressed(VLR_MOUSE_BUTTON_LEFT)) 
+	//{
+	//	//L_TRACE("Clicked");
+
+	//	glm::vec2 mousePos = m_input.GetMousePosition();
+	//	glm::vec3 camPos = m_camera.Position;
+
+	//	mousePos.x = (mousePos.x / SCREEN_WIDTH) * SCREEN_WIDTH - SCREEN_WIDTH * 0.5f;
+	//	mousePos.y = SCREEN_HEIGHT * 0.5f - (mousePos.y / SCREEN_HEIGHT) * SCREEN_HEIGHT;
+
+	//	m_particle.Position = { mousePos.x + camPos.x, mousePos.y + camPos.y };
+	//	for (int i = 0; i < 5; i++)
+	//		m_particleSystem.Emit(m_particle);
+	//}
+
+	//m_particleSystem.OnUpdate(time);
+	//m_particleSystem.OnRender(m_camera);
+
 }

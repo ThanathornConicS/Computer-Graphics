@@ -156,6 +156,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\Random.cpp" />
     <ClCompile Include="src\RayMarchScene.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\HDRBuffer.cpp" />
@@ -179,6 +181,9 @@
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\KeyCode.h" />
     <ClInclude Include="src\MouseCode.h" />
+    <ClInclude Include="src\ParticleSystem.h" />
+    <ClInclude Include="src\Physic.h" />
+    <ClInclude Include="src\Random.h" />
     <ClInclude Include="src\RayMarchScene.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\HDRBuffer.h" />
@@ -197,6 +202,7 @@
     <ClInclude Include="src\Test.h" />
     <ClInclude Include="src\Time.h" />
     <ClInclude Include="src\Utilities.h" />
+    <ClInclude Include="src\VLRCore.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Texture.h" />
   </ItemGroup>
