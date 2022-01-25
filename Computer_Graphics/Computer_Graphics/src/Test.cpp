@@ -42,6 +42,8 @@ void Test::OnAttach()
 		cube[i].GenVertexObject();
 
 	DiiferentialEquation();
+	printf("\n");
+	EulerIntegration();
 
 	//// Init here
 	/*m_particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };

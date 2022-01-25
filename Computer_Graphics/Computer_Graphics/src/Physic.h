@@ -20,22 +20,25 @@ inline void DiiferentialEquation()
 		v = -g * t + vNull;
 		x = (0.5f * -g * t * t) + (vNull * t) + xNull;
 
-		L_TRACE("Diff: {0}: v = {1}		x = {2}", t, v, x);
+		L_TRACE("Diff: {0}: v = {1}\t\tx = {2}", t, v, x);
 	}
 }
-inline void EulerIntegration() 
+inline void EulerIntegration(float h = 1) 
 {
 	int t = 0, n = 0;
 	float v = vNull, x = xNull;
 
+	//L_TRACE("Euler: {0}: v = {1}\t\tx = {2}", t, v, x);
 	while (t < timeMax) 
 	{
+		L_TRACE("Euler: {0}: v = {1}\t\tx = {2}", t, v, x);
 		if (t == timeMax)
 			break;
 
-		v = v + g * 1;
-		x = x + v * 1;
+		float tempV = v;
+		v = v + -g * h;
+		x = x + tempV * h;
 
-
+		n = n + 1; t = n * h;
 	}
 }
