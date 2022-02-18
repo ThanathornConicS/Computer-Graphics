@@ -1,27 +1,26 @@
 #include "pch.h"
 #include "Test.h"
 
+#include "Math.h"
 #include "Physic.h"
 
-CubeMesh cube[10];
-vlr::Shader shader;
+QuadMesh quad;
 
-vlr::Camera camera0(glm::vec3(0.0f, 0.0f, 10.0f));
+//vlr::Camera camera0(glm::vec3(0.0f, 0.0f, 10.0f));
 
-glm::vec3 cubePositions[] = 
-{
-	glm::vec3(0.0f,  0.0f,  0.0f),
-	glm::vec3(2.0f,  5.0f, -15.0f),
-	glm::vec3(-1.5f, -2.2f, -2.5f),
-	glm::vec3(-3.8f, -2.0f, -12.3f),
-	glm::vec3(2.4f, -0.4f, -3.5f),
-	glm::vec3(-1.7f,  3.0f, -7.5f),
-	glm::vec3(1.3f, -2.0f, -2.5f),
-	glm::vec3(1.5f,  2.0f, -2.5f),
-	glm::vec3(1.5f,  0.2f, -1.5f),
-	glm::vec3(-1.3f,  1.0f, -1.5f)
-};
+static double last_xpos = SCREEN_WIDTH / 2;
+static double last_ypos = SCREEN_HEIGHT / 2;
 
+float horizontalAngle = PI;
+float verticalAngle = 0.0f;
+float initialFoV = 45.0f;
+
+glm::vec3 position = glm::vec3(0, 0, 6);
+glm::vec3 direction = glm::vec3(0, 0, 0);
+glm::vec3 right = glm::vec3(0, 0, 0);
+
+float speed = 3.0f;
+float mouseSensitivity = 0.0005f;
 
 Test::Test()
 	: Scene("GeneralTesting")
@@ -33,26 +32,10 @@ void Test::OnAttach()
 {
 	L_INFO("Attaching {0}...", this->m_debugName);
 
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_shader.Compile("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
+	m_shader.Use();
 
-	shader.Compile("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
-
-	for (int i = 0; i < 10; i++)
-		cube[i].GenVertexObject();
-
-	DiiferentialEquation();
-	printf("\n");
-	EulerIntegration();
-
-	//// Init here
-	/*m_particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
-	m_particle.ColorEnd = { 254 / 255.0f, 109 / 255.0f, 41 / 255.0f, 1.0f };
-	m_particle.SizeBegin = 0.5f, m_particle.SizeVariation = 0.3f, m_particle.SizeEnd = 0.0f;
-	m_particle.LifeTime = 1.0f;
-	m_particle.Velocity = { 0.0f, 0.0f };
-	m_particle.VelocityVariation = { 3.0f, 1.0f };
-	m_particle.Position = { 0.0f, 0.0f };*/
+	quad.GenVertexObject();
 }
 void Test::OnDetach()
 {
@@ -61,46 +44,86 @@ void Test::OnDetach()
 
 void Test::OnUpdate(vlr::Time time)
 {	
-	shader.Use();
+	double mouseX, mouseY;
+	glfwGetCursorPos(vlr::Window::GetInstance().GetWindow(), &mouseX, &mouseY);
 
-	// pass projection matrix to shader (note that in this case it could change every frame)
-	glm::mat4 projection = glm::perspective(glm::radians(camera0.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-	shader.SetMat4("proj", projection);
-
-	// camera/view transformation
-	glm::mat4 view = camera0.GetViewMatrix();
-	shader.SetMat4("view", view);
-
-	shader.SetVec4("color", glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
-
-	for (size_t i = 0; i < 10; i++)
+	if (m_input.IsMouseButtonPressed(VLR_MOUSE_BUTTON_LEFT)) 
 	{
-		// calculate the model matrix for each object and pass it to shader before drawing
-		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		model = glm::translate(model, cubePositions[i]);
-		float angle = 20.0f * i;
-		model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-		shader.SetMat4("model", model);
+		horizontalAngle += mouseSensitivity * float(last_xpos - mouseX);
+		verticalAngle += mouseSensitivity * float(last_ypos - mouseY);
 
-		cube[i].Render();
+		//L_TRACE("CLICKED");
 	}
 
-	//if (m_input.IsMouseButtonPressed(VLR_MOUSE_BUTTON_LEFT)) 
-	//{
-	//	//L_TRACE("Clicked");
+	// Direction : Spherical coordinates to Cartesian coordinates conversion
+	direction = glm::vec3(
+		cos(verticalAngle) * sin(horizontalAngle),
+		sin(verticalAngle),
+		cos(verticalAngle) * cos(horizontalAngle)
+	);
 
-	//	glm::vec2 mousePos = m_input.GetMousePosition();
-	//	glm::vec3 camPos = m_camera.Position;
+	// Right vector
+	right = glm::vec3(
+		sin(horizontalAngle - 3.14f / 2.0f),
+		0,
+		cos(horizontalAngle - 3.14f / 2.0f)
+	);
 
-	//	mousePos.x = (mousePos.x / SCREEN_WIDTH) * SCREEN_WIDTH - SCREEN_WIDTH * 0.5f;
-	//	mousePos.y = SCREEN_HEIGHT * 0.5f - (mousePos.y / SCREEN_HEIGHT) * SCREEN_HEIGHT;
+	// Up vector
+	glm::vec3 up = glm::cross(right, direction);
 
-	//	m_particle.Position = { mousePos.x + camPos.x, mousePos.y + camPos.y };
-	//	for (int i = 0; i < 5; i++)
-	//		m_particleSystem.Emit(m_particle);
-	//}
+	// Move forward
+	if (m_input.IsKeyPressed(VLR_KEY_W)) {
+		position += direction * static_cast<float>(time.deltaTime) * speed;
+	}
+	// Move backward
+	if (m_input.IsKeyPressed(VLR_KEY_S)) {
+		position -= direction * static_cast<float>(time.deltaTime) * speed;
+	}
+	// Strafe right
+	if (m_input.IsKeyPressed(VLR_KEY_D)) {
+		position += right * static_cast<float>(time.deltaTime) * speed;
+	}
+	// Strafe left
+	if (m_input.IsKeyPressed(VLR_KEY_A)) {
+		position -= right * static_cast<float>(time.deltaTime) * speed;
+	}
+	// Move Up
+	if (m_input.IsKeyPressed(VLR_KEY_E)) {
+		position += up * static_cast<float>(time.deltaTime) * speed;
+	}
+	// Move Down
+	if (m_input.IsKeyPressed(VLR_KEY_Q)) {
+		position -= up * static_cast<float>(time.deltaTime) * speed;
+	}
 
-	//m_particleSystem.OnUpdate(time);
-	//m_particleSystem.OnRender(m_camera);
+	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
+	// Projection matrix : 45° Field of View, W:H ratio, display range : 0.1 unit <-> 100 units
+	glm::mat4 projection = glm::perspective(FoV, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 1000.0f);
+	// Camera matrix
+	glm::mat4 view = glm::lookAt(
+		position,				// Camera is here
+		position + direction,	// and looks here : at the same position, plus "direction"
+		up						// Head is up (set to 0,-1,0 to look upside-down)
+	);
+
+	last_xpos = xpos;
+	last_ypos = ypos;
+
+	glm::mat4 model = glm::mat4(1.0f);
+	/*glm::mat4 view = m_camera.GetViewMatrix();
+	glm::mat4 projection = glm::perspective(glm::radians(m_camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);*/
+
+	m_shader.Use();
+	m_shader.SetMat4("view", view);
+	m_shader.SetMat4("projection", projection);
+
+	// Floor
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	model = glm::scale(model, glm::vec3(0.25f, 0.25f, 1.0f));
+	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(1, 0, 0));
+	m_shader.SetMat4("model", model);
+	quad.Render();
 }
+

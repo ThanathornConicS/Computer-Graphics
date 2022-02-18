@@ -30,11 +30,13 @@ namespace vlr
 			particle.LifeRemaining -= time.deltaTime;
 			particle.Position += particle.Velocity * (float)(time.deltaTime);
 			particle.Rotation += 0.01f * time.deltaTime;
+
+			//L_TRACE("LifeRemaining: {0}", particle.LifeRemaining);
 		}
 	}
 	void ParticleSystem::OnRender(Camera& camera)
 	{
-		if (!m_QuadVA)
+		/*if (!m_QuadVA)
 		{
 			float vertices[] = {
 				 -0.5f, -0.5f, 0.0f,
@@ -63,14 +65,24 @@ namespace vlr
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadIB);
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-			m_ParticleShader = std::unique_ptr<Shader>(Shader::CompileFromText("Shader/vertexShader.vert", "Shader/fragmentShader.frag"));
+			m_ParticleShader = std::unique_ptr<Shader>(Shader::CompileFromText("Shader/particles.vert", "Shader/particles.frag"));
 			m_ParticleShaderViewProj = glGetUniformLocation(m_ParticleShader->ID, "view");
 			m_ParticleShaderTransform = glGetUniformLocation(m_ParticleShader->ID, "model");
 			m_ParticleShaderColor = glGetUniformLocation(m_ParticleShader->ID, "color");
 		}
 
 		m_ParticleShader->Use();
-		glUniformMatrix4fv(m_ParticleShaderViewProj, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));
+		glUniformMatrix4fv(m_ParticleShaderViewProj, 1, GL_FALSE, glm::value_ptr(camera.GetViewMatrix()));*/
+		if (m_quad.quadVAO == 0) 
+		{
+			m_ParticleShader = std::unique_ptr<Shader>(Shader::CompileFromText("Shader/particles.vert", "Shader/particles.frag"));
+			m_quad.GenVertexObject();
+		}
+
+		m_ParticleShader->Use();
+		m_ParticleShader->SetMat4("view", camera.GetViewMatrix());
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+		m_ParticleShader->SetMat4("proj", projection);
 
 		for (auto& particle : m_ParticlePool) 
 		{
@@ -86,11 +98,16 @@ namespace vlr
 				* glm::rotate(glm::mat4(1.0f), particle.Rotation, { 0.0f, 0.0f, 1.0f })
 				* glm::scale(glm::mat4(1.0f), { size, size, 1.0f });
 
-			glUniformMatrix4fv(m_ParticleShaderTransform, 1, GL_FALSE, glm::value_ptr(transform));
+			/*glUniformMatrix4fv(m_ParticleShaderTransform, 1, GL_FALSE, glm::value_ptr(transform));
 			glUniform4fv(m_ParticleShaderColor, 1, glm::value_ptr(color));
 			glBindVertexArray(m_QuadVA);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-			glBindVertexArray(0);
+			glBindVertexArray(0);*/
+
+			m_ParticleShader->SetMat4("model", transform);
+			m_ParticleShader->SetVec4("color", color);
+
+			m_quad.Render();
 		}
 	}
 
@@ -105,6 +122,7 @@ namespace vlr
 		particle.Velocity = particleProps.Velocity;
 		particle.Velocity.x += particleProps.VelocityVariation.x * (Random::Float() - 0.5f);
 		particle.Velocity.y += particleProps.VelocityVariation.y * (Random::Float() - 0.5f);
+		particle.Velocity.z += particleProps.VelocityVariation.z * (Random::Float() - 0.5f);
 
 		// Color
 		particle.ColorBegin = particleProps.ColorBegin;

@@ -18,8 +18,7 @@ public:
 
 private:
 	vlr::Camera m_camera;
-	vlr::ParticleProps m_particle;
-	vlr::ParticleSystem m_particleSystem;
+	vlr::Shader m_shader;
 
 };
 

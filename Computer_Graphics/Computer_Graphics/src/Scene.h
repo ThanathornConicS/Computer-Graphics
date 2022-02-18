@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Time.h"
 #include "Input.h"
+#include "Window.h"
 
 namespace vlr
 {

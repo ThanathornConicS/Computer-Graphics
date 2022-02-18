@@ -168,6 +168,7 @@
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Test.cpp" />
+    <ClCompile Include="src\Vector.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\WindowsInput.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="src\Batch.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\KeyCode.h" />
+    <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\MouseCode.h" />
     <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\Physic.h" />
@@ -202,6 +204,7 @@
     <ClInclude Include="src\Test.h" />
     <ClInclude Include="src\Time.h" />
     <ClInclude Include="src\Utilities.h" />
+    <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\VLRCore.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Texture.h" />
@@ -211,6 +214,8 @@
     <None Include="Shader\fragmentUI.frag" />
     <None Include="Shader\hdrFragment.frag" />
     <None Include="Shader\hdrVertex.vert" />
+    <None Include="Shader\particles.frag" />
+    <None Include="Shader\particles.vert" />
     <None Include="Shader\rayMarch.frag" />
     <None Include="Shader\rayMarch.vert" />
     <None Include="Shader\skyBox.frag" />

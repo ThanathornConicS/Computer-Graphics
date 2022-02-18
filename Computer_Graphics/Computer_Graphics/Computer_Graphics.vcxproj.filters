@@ -80,7 +80,13 @@
     <Filter Include="CG\Particles">
       <UniqueIdentifier>{2bc8f4d5-f86b-4fdf-9651-d105ade61b75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scenes\GeneralTester\PhysicStuff">
+    <Filter Include="CG\Utils\Vector">
+      <UniqueIdentifier>{a014d337-91f7-4ebb-bbbb-b09daed481d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Utils\MathStuff">
+      <UniqueIdentifier>{3a4735ef-93c8-46d0-9882-edf23c6b7c7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CG\Utils\PhysicStuff">
       <UniqueIdentifier>{f8cc03d3-bd83-4917-9277-b54022c1f1f7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -129,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="src\ParticleSystem.cpp">
       <Filter>CG\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vector.cpp">
+      <Filter>CG\Utils\Vector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +235,13 @@
       <Filter>CG\Particles</Filter>
     </ClInclude>
     <ClInclude Include="src\Physic.h">
-      <Filter>Scenes\GeneralTester\PhysicStuff</Filter>
+      <Filter>CG\Utils\PhysicStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector.h">
+      <Filter>CG\Utils\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math.h">
+      <Filter>CG\Utils\MathStuff</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -258,6 +273,12 @@
       <Filter>Resource Files\Shader</Filter>
     </None>
     <None Include="Shader\skyBox.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\particles.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\particles.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>
