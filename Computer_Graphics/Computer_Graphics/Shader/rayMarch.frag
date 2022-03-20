@@ -132,14 +132,18 @@ float JuliaEstimator(vec3 pos)
     return 0.5 * r * log(r) / length(dp);
 
 }
+// const vec3 va = vec3(  0.0,  0.57735,  0.0 );
+// const vec3 vb = vec3(  0.0, -1.0,  1.15470 );
+// const vec3 vc = vec3(  1.0, -1.0, -0.57735 );
+// const vec3 vd = vec3( -1.0, -1.0, -0.57735 );
 float SierpenskiEstimator(vec3 z)
 {
     float scale = 2.0;
  
-    vec3 a1 = vec3(1, 1, -1);
-    vec3 a2 = vec3(-1, -1, -1);
-    vec3 a3 = vec3(1, -1, 1);
-    vec3 a4 = vec3(-1, 1, 1);
+    vec3 a1 = vec3(0.0, 0.577, 0.0);
+    vec3 a2 = vec3(0.0, -1.0,  1.15470);
+    vec3 a3 = vec3(1.0, -1.0, -0.57735);
+    vec3 a4 = vec3(-1.0, -1.0, -0.57735);
     vec3 c;
 
     int n = 0;
@@ -229,7 +233,8 @@ float GetDist(vec3 p)
     else if (shape == 2)
         primitive = sdBox(center.xyz, vec3(1)); 
     else if (shape == 3)
-        primitive = sdTriPrism(center.xyz, vec2(1, 2));
+        //primitive = sdTriPrism(center.xyz, vec2(1, 2));
+        primitive = SierpenskiEstimator(center.xyz);
 
     return primitive;
 }

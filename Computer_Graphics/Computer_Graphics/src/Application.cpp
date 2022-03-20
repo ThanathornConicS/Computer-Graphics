@@ -3,6 +3,7 @@
 
 #include "RayMarchScene.h"
 #include "Test.h"
+#include "Particlefx.h"
 
 namespace vlr
 {
@@ -21,6 +22,7 @@ namespace vlr
 
 		m_scenes.push_back(new Test());
 		m_scenes.push_back(new RayMarchScene());
+		m_scenes.push_back(new Particlefx());
 
 		m_time.time_last = glfwGetTime();
 

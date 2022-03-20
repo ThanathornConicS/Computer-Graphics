@@ -16,8 +16,8 @@ namespace vlr
 		{}
 		virtual ~Scene() {}
 
-		virtual void OnAttach() {}
-		virtual void OnDetach() {}
+		virtual void OnAttach() { L_INFO("Attaching {0}...", this->m_debugName); }
+		virtual void OnDetach() { L_INFO("Detaching {0}...", this->m_debugName); }
 
 		virtual void OnUpdate(Time time) {}
 

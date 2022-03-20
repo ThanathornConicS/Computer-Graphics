@@ -27,6 +27,13 @@ namespace vlr
 
 		return state == GLFW_PRESS;
 	}
+	bool Input::IsMouseButtonReleased(int button)
+	{
+		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
+		auto state = glfwGetMouseButton(window, button);
+
+		return state == GLFW_RELEASE;
+	}
 
 	glm::vec2 Input::GetMousePosition()
 	{
