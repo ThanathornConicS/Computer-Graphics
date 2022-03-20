@@ -16,6 +16,7 @@ namespace vlr
 		static bool IsKeyReleased(int keycode);
 
 		static bool IsMouseButtonPressed(int button);
+		static bool IsMouseButtonReleased(int button);
 		static glm::vec2 GetMousePosition();
 		static float GetMouseX();
 		static float GetMouseY();

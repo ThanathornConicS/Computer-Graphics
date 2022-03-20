@@ -156,6 +156,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\FileIO.cpp" />
+    <ClCompile Include="src\Particlefx.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\Random.cpp" />
     <ClCompile Include="src\RayMarchScene.cpp" />
@@ -178,9 +180,11 @@
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Batch.h" />
+    <ClInclude Include="src\FileIO.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\KeyCode.h" />
     <ClInclude Include="src\MouseCode.h" />
+    <ClInclude Include="src\Particlefx.h" />
     <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\Physic.h" />
     <ClInclude Include="src\Random.h" />
@@ -211,6 +215,8 @@
     <None Include="Shader\fragmentUI.frag" />
     <None Include="Shader\hdrFragment.frag" />
     <None Include="Shader\hdrVertex.vert" />
+    <None Include="Shader\lineFragment.frag" />
+    <None Include="Shader\lineVertex.vert" />
     <None Include="Shader\rayMarch.frag" />
     <None Include="Shader\rayMarch.vert" />
     <None Include="Shader\skyBox.frag" />

@@ -25,7 +25,6 @@ vlr::Camera camera(glm::vec3(0.0f, 1.0f, -7.0f));
 float zoom = 1.0f;
 int shapeSelected = 1;
 
-
 RayMarchScene::RayMarchScene()
 	: Scene("RayMarched")
 {}
@@ -88,7 +87,7 @@ void RayMarchScene::OnUpdate(vlr::Time time)
     m_rayMarchShader.SetFloat("SystemTime", static_cast<float>(time.current_time));
     m_rayMarchShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
     m_rayMarchShader.SetFloat("zoom", zoom);
-    m_rayMarchShader.SetMat4("rotMat", shaderRotMat);
+    m_rayMarchShader.SetMat4("rotMat", glm::mat4(1.0f));
     m_rayMarchShader.SetInt("shape", shapeSelected);
 
     rayquad.Render();

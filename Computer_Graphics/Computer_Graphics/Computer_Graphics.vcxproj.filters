@@ -83,6 +83,9 @@
     <Filter Include="Scenes\GeneralTester\PhysicStuff">
       <UniqueIdentifier>{f8cc03d3-bd83-4917-9277-b54022c1f1f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Particle">
+      <UniqueIdentifier>{ae5496d3-1864-4588-acaa-649a33b591a8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -129,6 +132,12 @@
     </ClCompile>
     <ClCompile Include="src\ParticleSystem.cpp">
       <Filter>CG\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Particlefx.cpp">
+      <Filter>Scenes\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FileIO.cpp">
+      <Filter>CG\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +237,12 @@
     <ClInclude Include="src\Physic.h">
       <Filter>Scenes\GeneralTester\PhysicStuff</Filter>
     </ClInclude>
+    <ClInclude Include="src\Particlefx.h">
+      <Filter>Scenes\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileIO.h">
+      <Filter>CG\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
@@ -258,6 +273,12 @@
       <Filter>Resource Files\Shader</Filter>
     </None>
     <None Include="Shader\skyBox.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\lineFragment.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\lineVertex.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>

@@ -3,8 +3,6 @@
 #include "Scene.h"
 #include "VLRCore.h"
 
-#include "ParticleSystem.h"
-
 class Test : public vlr::Scene
 {
 public:
@@ -17,9 +15,14 @@ public:
 	void OnUpdate(vlr::Time time) override;
 
 private:
-	vlr::Camera m_camera;
-	vlr::ParticleProps m_particle;
-	vlr::ParticleSystem m_particleSystem;
+	vlr::Shader m_ifsShader;
+	vlr::Shader m_hdrShader;
+
+	HDRBuffer hdrBuffer;
+	RayQuadMesh rayquad;
+	QuadMesh quadMesh;
+
+	float m_exposure = 1.0f;
 
 };
 
