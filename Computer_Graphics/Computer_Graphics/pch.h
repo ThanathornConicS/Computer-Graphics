@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "Log.h"
+#include "src/Random.h"
 
 #include "src/KeyCode.h"
 

@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
     try
     {
         application.Init();
+        vlr::Random::Init();
     }
     catch (const std::exception& e)
     {
