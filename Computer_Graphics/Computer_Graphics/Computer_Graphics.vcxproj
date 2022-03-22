@@ -218,6 +218,8 @@
     <None Include="Shader\fragmentUI.frag" />
     <None Include="Shader\hdrFragment.frag" />
     <None Include="Shader\hdrVertex.vert" />
+    <None Include="Shader\IFS.frag" />
+    <None Include="Shader\IFS.vert" />
     <None Include="Shader\lineFragment.frag" />
     <None Include="Shader\lineVertex.vert" />
     <None Include="Shader\particles.frag" />

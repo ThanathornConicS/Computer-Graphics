@@ -145,6 +145,7 @@
     <ClCompile Include="src\FileIO.cpp">
       <Filter>CG\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="src\Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -249,6 +250,8 @@
     <ClInclude Include="src\FileIO.h">
       <Filter>CG\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Math.h" />
+    <ClInclude Include="src\Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
@@ -285,6 +288,14 @@
       <Filter>Resource Files\Shader</Filter>
     </None>
     <None Include="Shader\lineVertex.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\particles.frag" />
+    <None Include="Shader\particles.vert" />
+    <None Include="Shader\IFS.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\IFS.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>

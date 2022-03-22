@@ -14,11 +14,12 @@ public:
 
 	void OnUpdate(vlr::Time time) override;
 
+	void ProcessInput();
+
 private:
 	vlr::Shader m_ifsShader;
 	vlr::Shader m_hdrShader;
 
-	HDRBuffer hdrBuffer;
 	RayQuadMesh rayquad;
 	QuadMesh quadMesh;
 

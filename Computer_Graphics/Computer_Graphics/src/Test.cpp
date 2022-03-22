@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Test.h"
 
-vlr::Camera camera0(glm::vec3(0.0f, 0.0f, 1.0f));
-
 Test::Test()
 	: Scene("GeneralTesting")
 {}
@@ -13,11 +11,7 @@ void Test::OnAttach()
 {
 	//L_INFO("Attaching {0}...", this->m_debugName);
 
-	m_hdrShader.Compile("Shader/hdrVertex.vert", "Shader/hdrFragment.frag");
 	m_ifsShader.Compile("Shader/IFS.vert", "Shader/IFS.frag");
-
-	hdrBuffer.CreateBuffer();
-	quadMesh.GenVertexObject();
 
 	m_ifsShader.Use();
 	rayquad.GenVertexObject();
@@ -37,11 +31,16 @@ void Test::OnUpdate(vlr::Time time)
 	m_ifsShader.SetVec2("SystemResolution", glm::vec2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 	rayquad.Render();
+}
 
-	// Render Everything as hdr buffer
-	/*m_hdrShader.Use();
-	hdrBuffer.RenderBuffer();
-	m_hdrShader.SetFloat("exposure", m_exposure);
-	quadMesh.Render();*/
+void Test::ProcessInput()
+{
+    if (m_input.IsKeyPressed(VLR_KEY_PAGE_UP))
+        m_exposure += 0.01f;
+    if (m_input.IsKeyPressed(VLR_KEY_PAGE_DOWN))
+        m_exposure -= 0.01f;
+
+    if (m_exposure < 0)
+        m_exposure = 0;
 }
 

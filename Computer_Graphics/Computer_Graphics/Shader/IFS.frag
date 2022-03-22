@@ -52,22 +52,6 @@ vec2 IFSFern(in vec2 z, float p)
     return z;
 }
 
-// float Render(vec2 p)
-// {
-//     vec2 z = vec2(0.0);
-//     for( int i = 0; i < 32; i++ )
-//     {
-//         z = IFSFern( z );
-//     }
-//     float d = 1e4;
-//     for( int i = 0; i < MAX_STEPS; i++ )
-//     {
-//         z = IFSFern( z );
-// 		d = min( d, dot(p-z,p-z) );
-//     }
-//     return sqrt(d);
-// }
-
 void main()
 {
     vec2 uv = vec2(texCoord.x, -texCoord.y);
@@ -85,29 +69,13 @@ void main()
     float result = 1.0;
     float p = rand(uv, SystemTime);
 
-    float t = p;
-    float col = 0.0;
-
     for(float i = 0.0; i < tolerance; i += tolerance/MAX_STEPS)
     {
-        // p = fract(p / 0.123454);    // Just some random number
-        // z = IFSFern(z, p);
-
-        // // if current pixel is near the result (based on tolerance, then plot it)
-		// result=(uv.x-z.x)*(uv.x-z.x)+(uv.y-z.y)*(uv.y-z.y);
-		 
-		// if( result < (tolerance - i) / MAX_STEPS)
-        // {
-        //     fragColor = vec4(0.0941, 0.5333, 0.0941, 1.0);
-        //     return;
-		// }
         p = fract(p / 0.123454);    // Just some random number
         z = IFSFern(z, p);
 
-        //col = max(col, exp(-100.0 * dot(uv - z, uv - z)));
         // if current pixel is near the result (based on tolerance, then plot it)
-
-		result=(uv.x-z.x)*(uv.x-z.x)+(uv.y-z.y)*(uv.y-z.y);
+		result = (uv.x-z.x)*(uv.x-z.x)+(uv.y-z.y)*(uv.y-z.y);
 		 
 		if( result < (tolerance - i) / MAX_STEPS){
 			
@@ -115,7 +83,7 @@ void main()
 			 return;
 		}
     }
-    //fragColor = vec4(0.5 * col, col, 0.0, 1.0);
+
     fragColor = vec4(0.1059, 0.0196, 0.2392, 1.0);
 
 }
