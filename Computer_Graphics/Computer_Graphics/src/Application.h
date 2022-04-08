@@ -34,7 +34,7 @@ namespace vlr
 		Time m_time;
 
 		std::vector<Scene*> m_scenes;
-		Scene* m_currentScene;
+		Scene* m_currentScene = nullptr;
 		int m_sceneAmount = 0;
 	};
 }

@@ -15,5 +15,8 @@ public:
 	void OnUpdate(vlr::Time time) override;
 
 private:
+	vlr::Shader m_shader;
+	CubeMesh cubeMesh;
+	QuadMesh quadMesh;
 };
 

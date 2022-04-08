@@ -92,6 +92,9 @@
     <Filter Include="Scenes\Particle">
       <UniqueIdentifier>{ae5496d3-1864-4588-acaa-649a33b591a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Terrain">
+      <UniqueIdentifier>{b98c8e10-886c-43d3-a9d8-645b9fa172dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -145,7 +148,9 @@
     <ClCompile Include="src\FileIO.cpp">
       <Filter>CG\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\Vector.cpp" />
+    <ClCompile Include="src\Terrain.cpp">
+      <Filter>Scenes\Terrain</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -250,8 +255,18 @@
     <ClInclude Include="src\FileIO.h">
       <Filter>CG\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Math.h" />
-    <ClInclude Include="src\Vector.h" />
+    <ClInclude Include="src\Terrain.h">
+      <Filter>Scenes\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DiamonSquare.h">
+      <Filter>Scenes\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bellman.h">
+      <Filter>Scenes\GeneralTester</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TerrainMesh.h">
+      <Filter>CG\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
@@ -290,12 +305,16 @@
     <None Include="Shader\lineVertex.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
-    <None Include="Shader\particles.frag" />
-    <None Include="Shader\particles.vert" />
     <None Include="Shader\IFS.frag">
       <Filter>Resource Files\Shader</Filter>
     </None>
     <None Include="Shader\IFS.vert">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\particles.frag">
+      <Filter>Resource Files\Shader</Filter>
+    </None>
+    <None Include="Shader\particles.vert">
       <Filter>Resource Files\Shader</Filter>
     </None>
   </ItemGroup>

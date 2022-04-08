@@ -2,8 +2,8 @@
 
 #include "pch.h"
 
-const int CHUNK_X = 512;
-const int CHUNK_Z = 512;
+const int CHUNK_X = 64;
+const int CHUNK_Z = 64;
 
 static float FRandom(int range) 
 {

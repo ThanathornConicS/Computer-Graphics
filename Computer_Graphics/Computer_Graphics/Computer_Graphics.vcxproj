@@ -169,8 +169,8 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\Test.cpp" />
-    <ClCompile Include="src\Vector.cpp" />
     <ClCompile Include="src\Window.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\WindowsInput.cpp" />
@@ -181,10 +181,11 @@
     <ClInclude Include="..\Resources\stb_image\stb_image_write.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Batch.h" />
+    <ClInclude Include="src\Bellman.h" />
+    <ClInclude Include="src\DiamonSquare.h" />
     <ClInclude Include="src\FileIO.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\KeyCode.h" />
-    <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\MouseCode.h" />
     <ClInclude Include="src\Particlefx.h" />
     <ClInclude Include="src\ParticleSystem.h" />
@@ -205,13 +206,14 @@
     <ClInclude Include="src\QuadMesh.h" />
     <ClInclude Include="src\SkyboxMesh.h" />
     <ClInclude Include="src\SphereMesh.h" />
+    <ClInclude Include="src\TerrainMesh.h" />
     <ClInclude Include="src\Test.h" />
     <ClInclude Include="src\Time.h" />
     <ClInclude Include="src\Utilities.h" />
-    <ClInclude Include="src\Vector.h" />
     <ClInclude Include="src\VLRCore.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\Texture.h" />
+    <ClInclude Include="src\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag" />

@@ -23,3 +23,4 @@
 #include "RayQuadMesh.h"
 #include "SkyboxMesh.h"
 #include "SphereMesh.h"
+#include "TerrainMesh.h"

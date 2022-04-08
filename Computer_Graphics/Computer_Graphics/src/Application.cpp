@@ -4,6 +4,7 @@
 #include "RayMarchScene.h"
 #include "Test.h"
 #include "Particlefx.h"
+#include "Terrain.h"
 
 namespace vlr
 {
@@ -23,10 +24,11 @@ namespace vlr
 		m_scenes.push_back(new Test());
 		m_scenes.push_back(new RayMarchScene());
 		m_scenes.push_back(new Particlefx());
+		m_scenes.push_back(new Terrain());
 
 		m_time.time_last = glfwGetTime();
 
-		m_currentScene = m_scenes[0];
+		m_currentScene = m_scenes[1];
 		m_currentScene->OnAttach();
 	}
 	void Application::Run()

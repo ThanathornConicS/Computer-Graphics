@@ -17,11 +17,9 @@ public:
 	void ProcessInput();
 
 private:
-	vlr::Shader m_ifsShader;
-	vlr::Shader m_hdrShader;
+	vlr::Shader m_shader;
 
-	RayQuadMesh rayquad;
-	QuadMesh quadMesh;
+	TerrainMesh m_terrainMesh;
 
 	float m_exposure = 1.0f;
 
