@@ -1,5 +1,4 @@
-#ifndef SCENE_H
-#define SCENE_H
+#pragma once
 
 #include "Shader.h"
 #include "Time.h"
@@ -27,5 +26,3 @@ namespace vlr
 
 	};
 }
-
-#endif // !SCENE_H

@@ -1,6 +1,4 @@
 #pragma once
-#ifndef _H_UTILITIES
-#define _H_UTILITIES
 
 #include "pch.h"
 
@@ -96,5 +94,4 @@ inline GLuint LoadShaders(const char* vertex_file_path, const char* fragment_fil
 	return ProgramID;
 }
 
-#endif // !_H_UTILITIES
 

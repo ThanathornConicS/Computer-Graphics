@@ -1,5 +1,4 @@
-#ifndef RAYQUAD_H
-#define RAYQUAD_H
+#pragma once
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -45,6 +44,5 @@ private:
 
 };
 
-#endif // ! RAYQUAD_H
 
 

@@ -1,5 +1,4 @@
-#ifndef HDRBUFFER_H
-#define HDRBUFFER_H
+#pragma once
 
 #include "Framebuffer.h"
 
@@ -16,5 +15,4 @@ private:
 
 };
 
-#endif // !HDRBUFFER_H
 

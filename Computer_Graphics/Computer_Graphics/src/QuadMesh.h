@@ -1,5 +1,4 @@
-#ifndef QUAD_H
-#define QUAD_H
+#pragma once
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -57,5 +56,4 @@ private:
 
 };
 
-#endif // ! QUAD_H
 

@@ -1,5 +1,4 @@
-#ifndef WINDOWINPUT_H
-#define WINDOWINPUT_H
+#pragma once
 
 #include "Input.h"
 
@@ -11,11 +10,9 @@ namespace vlr
 		virtual bool IsKeyPressedImpl(int keycode) override;
 		virtual bool IsKeyReleasedImpl(int keycode) override;
 		virtual bool IsMouseButtonPressedImpl(int button) override;
-		virtual std::pair<float, float> GetMousePositionImpl() override;
-		virtual float GetMouseXImpl() override;
-		virtual float GetMouseYImpl() override;
+		virtual std::pair<double, double> GetMousePositionImpl() override;
+		virtual double GetMouseXImpl() override;
+		virtual double GetMouseYImpl() override;
 	};
 
 }
-
-#endif // !WINDOWINPUT_H

@@ -1,5 +1,4 @@
-#ifndef APP_H
-#define APP_H
+#pragma once
 
 #include "Window.h"
 #include "WindowsInput.h"
@@ -41,6 +40,5 @@ namespace vlr
 	};
 }
 
-#endif // !APP_H
 
 

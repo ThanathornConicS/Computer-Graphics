@@ -47,9 +47,6 @@
     <Filter Include="CG\Time">
       <UniqueIdentifier>{e36881de-c9e8-4569-b36a-6252da2fe31b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CG\Scene">
-      <UniqueIdentifier>{37e74694-2135-41e1-99ea-5e195f537938}</UniqueIdentifier>
-    </Filter>
     <Filter Include="OpenGL\Framebuffer">
       <UniqueIdentifier>{c2025cee-8fbd-4268-ad21-9fdb54c9d800}</UniqueIdentifier>
     </Filter>
@@ -73,6 +70,9 @@
     </Filter>
     <Filter Include="CG\Input">
       <UniqueIdentifier>{5488a315-d20e-44f8-ac7e-813342178b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes\SceneManager">
+      <UniqueIdentifier>{55718645-d7a9-4775-ba69-2e6fad01dc94}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -165,9 +165,6 @@
     <ClInclude Include="src\Time.h">
       <Filter>CG\Time</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene.h">
-      <Filter>CG\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\SkyboxMesh.h">
       <Filter>CG\Mesh</Filter>
     </ClInclude>
@@ -179,9 +176,6 @@
     </ClInclude>
     <ClInclude Include="src\Application.h">
       <Filter>CG</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Batch.h">
-      <Filter>OpenGL\BatchRendering</Filter>
     </ClInclude>
     <ClInclude Include="src\RayMarchScene.h">
       <Filter>Scenes\RayMarched</Filter>
@@ -200,6 +194,12 @@
     </ClInclude>
     <ClInclude Include="src\WindowsInput.h">
       <Filter>OpenGL\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Scenes\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.h">
+      <Filter>Scenes\SceneManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

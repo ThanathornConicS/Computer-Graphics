@@ -30,7 +30,7 @@ namespace vlr
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	std::pair<double, double> WindowsInput::GetMousePositionImpl()
 	{
 		auto window = static_cast<GLFWwindow*>(Window::GetInstance().GetWindow());
 		double xPos, yPos;
@@ -39,14 +39,14 @@ namespace vlr
 		return { xPos, yPos };
 	}
 
-	float WindowsInput::GetMouseXImpl()
+	double WindowsInput::GetMouseXImpl()
 	{
-		std::pair<float, float> pair = GetMousePositionImpl();
+		std::pair<double, double> pair = GetMousePositionImpl();
 		return pair.first;
 	}
-	float WindowsInput::GetMouseYImpl()
+	double WindowsInput::GetMouseYImpl()
 	{
-		std::pair<float, float> pair = GetMousePositionImpl();
+		std::pair<double, double> pair = GetMousePositionImpl();
 		return pair.second;
 	}
 }

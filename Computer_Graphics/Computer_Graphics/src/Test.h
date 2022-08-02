@@ -1,5 +1,4 @@
-#ifndef TEST_H
-#define TEST_H
+#pragma once
 
 #include "Scene.h"
 
@@ -20,6 +19,4 @@ private:
 private:
 
 };
-
-#endif // !TEST_H
 

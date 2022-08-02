@@ -1,5 +1,4 @@
-#ifndef RAYMARCHSCENE_H
-#define RAYMARCHSCENE_H
+#pragma once
 
 #include "Scene.h"
 
@@ -27,5 +26,3 @@ private:
 
 	vlr::WindowsInput m_input;
 };
-
-#endif // !RAYMARCHSCENE_H

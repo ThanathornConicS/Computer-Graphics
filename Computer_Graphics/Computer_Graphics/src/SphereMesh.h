@@ -1,5 +1,4 @@
-#ifndef SPHEREMESH_H
-#define SPHEREMESH_H
+#pragma once
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -102,6 +101,4 @@ struct SphereMesh
         glDrawElements(GL_TRIANGLE_STRIP, indexCount, GL_UNSIGNED_INT, 0);
     }
 };
-
-#endif // !SPHEREMESH_H
 

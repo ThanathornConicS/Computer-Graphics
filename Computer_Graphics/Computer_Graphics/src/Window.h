@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef H_WINDOW
-#define H_WINDOW
-
 #include <pch.h>
 
 #include <GL/glew.h>
@@ -63,5 +60,3 @@ namespace vlr
 
 	};
 }
-
-#endif // !H_WINDOW

@@ -1,5 +1,4 @@
-#ifndef TIME_H
-#define TIME_H
+#pragma once
 
 #include <pch.h>
 
@@ -40,6 +39,4 @@ namespace vlr
         }
     };
 }
-
-#endif // !TIME_H
 

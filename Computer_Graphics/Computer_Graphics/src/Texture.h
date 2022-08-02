@@ -1,5 +1,4 @@
-#ifndef TEXTURELOADER_H
-#define TEXTURELOADER_H
+#pragma once
 
 #include <pch.h>
 
@@ -30,7 +29,5 @@ namespace vlr
 
 	};
 }
-
-#endif // !TEXTURELOADER_H
 
 

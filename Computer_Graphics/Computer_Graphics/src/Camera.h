@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <GL/glew.h>
 #include <glm.hpp>
@@ -144,5 +143,3 @@ namespace vlr
         }
     };
 }
-
-#endif // !CAMERA_H

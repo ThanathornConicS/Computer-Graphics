@@ -1,5 +1,4 @@
-#ifndef SKYBOXMESH_H
-#define SKYBOXMESH_H
+#pragma once
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -91,5 +90,4 @@ private:
 
 };
 
-#endif // !SKYBOXMESH_H
 

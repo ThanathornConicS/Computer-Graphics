@@ -1,6 +1,4 @@
 #pragma once
-#ifndef H_CUBEMESH
-#define H_CUBEMESH
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -106,7 +104,5 @@ private:
     };
 
 };
-
-#endif // !H_CUBEMESH
 
 

@@ -1,5 +1,4 @@
-#ifndef MODELLOADER_H
-#define MODELLOADER_H
+#pragma once
 
 #include <pch.h>
 #include "GL/glew.h"
@@ -28,7 +27,4 @@ namespace vlr
 
 	};
 }
-
-#endif // !MODELLOADER_H
-
 

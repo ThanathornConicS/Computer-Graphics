@@ -1,5 +1,4 @@
-#ifndef FRAMEBUFFER_H
-#define FRAMEBUFFER_H
+#pragma once
 
 #include <pch.h>
 #include <GL/glew.h>
@@ -21,5 +20,4 @@ public:
 	uint32_t m_renderBuffer;
 };
 
-#endif // !FRAMEBUFFER_H
 
