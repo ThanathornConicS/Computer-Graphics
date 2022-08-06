@@ -115,6 +115,9 @@
     <ClCompile Include="src\WindowsInput.cpp">
       <Filter>OpenGL\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\SceneManager.cpp">
+      <Filter>Scenes\SceneManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">

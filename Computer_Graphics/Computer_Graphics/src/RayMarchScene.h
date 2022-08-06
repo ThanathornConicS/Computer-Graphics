@@ -23,6 +23,4 @@ private:
 
 	float m_rotRate = 1.0f;
 	float m_exposure = 1.0f;
-
-	vlr::WindowsInput m_input;
 };
