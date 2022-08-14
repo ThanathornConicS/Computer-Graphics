@@ -4,7 +4,7 @@
 #include "WindowsInput.h"
 #include "Time.h"
 
-#include "Scene.h"
+#include "SceneManager.h"
 
 namespace vlr
 {
@@ -30,11 +30,10 @@ namespace vlr
 
 	private:
 		static Window* m_systemWindow;
+		SceneManager* m_sceneManager;
 		Time m_time;
 
-		std::vector<Scene*> m_scenes;
 		Scene* m_currentScene;
-		int m_sceneAmount = 0;
 
 		WindowsInput m_input;
 	};

@@ -19,6 +19,11 @@ namespace vlr
 
 		virtual void OnUpdate(Time time) {}
 
+		inline const char* GetSceneName() const
+		{
+			return m_debugName;
+		}
+
 	protected:
 		const char* m_debugName = "Default_Scene";
 

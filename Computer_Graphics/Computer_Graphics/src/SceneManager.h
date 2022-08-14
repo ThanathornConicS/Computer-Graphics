@@ -19,8 +19,11 @@ namespace vlr
 		SceneManager(const SceneManager& otherInstance) = delete;
 		void operator=(SceneManager& otherInstance) = delete;
 
-		void AddScene(Scene& sceneToAdd, std::string& sceneNameToAdd);
-		void RemoveScene(std::string& sceneNameToRemove);
+		void AddScene(Scene* sceneToAdd);
+		void RemoveScene(int idx);
+
+		Scene* FindScene(std::string sceneNameToFind);
+		Scene* FindScene(int idx);
 
 	protected:
 		SceneManager();
@@ -28,7 +31,7 @@ namespace vlr
 	private:
 		static SceneManager* s_instance;
 
-		std::unordered_map<std::string, Scene*> m_scenes;
+		std::vector<Scene*> m_scenes;
 		int sceneIdx = -1;
 
 	};

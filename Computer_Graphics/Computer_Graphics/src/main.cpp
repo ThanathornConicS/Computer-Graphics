@@ -50,7 +50,10 @@ int main(int argc, char* argv[])
     glfwTerminate();
 
     _CrtMemCheckpoint(&sNew); //take a snapshot 
-    if (_CrtMemDifference(&sDiff, &sOld, &sNew)) // if there is a difference
+
+    bool leakStatus = _CrtMemDifference(&sDiff, &sOld, &sNew);
+    L_SYSTEM_TRACE("Memory Leak status: {0}", leakStatus);
+    if (leakStatus) // if there is a difference
     {
         OutputDebugString(L"-----------_CrtMemDumpStatistics ---------");
         _CrtMemDumpStatistics(&sDiff);
