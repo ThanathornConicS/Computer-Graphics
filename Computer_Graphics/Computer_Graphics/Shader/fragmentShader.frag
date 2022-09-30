@@ -26,5 +26,6 @@ void main()
     vec3 diffuse = diff * lightColor;
             
     vec3 result = (ambient + diffuse) * objectColor;
-    FragColor = texture(texture_diffuse1, fs_in.TexCoords) * vec4(result, 1.0);
+    //FragColor = texture(texture_diffuse1, fs_in.TexCoords) * vec4(result, 1.0);
+    FragColor = vec4(result, 1.0);
 }

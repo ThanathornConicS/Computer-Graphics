@@ -17,6 +17,7 @@ private:
 
 
 private:
+	vlr::Shader normalShader;
 
 };
 
