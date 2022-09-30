@@ -9,7 +9,7 @@ struct SphereMesh
     uint32_t sphereVAO = 0;
     uint32_t indexCount = 0;
 
-    inline void Render()
+    inline void GenVertexObject() 
     {
         if (sphereVAO == 0)
         {
@@ -96,7 +96,11 @@ struct SphereMesh
             glEnableVertexAttribArray(2);
             glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
         }
+    }
 
+    inline void Render()
+    {
+        GenVertexObject();
         glBindVertexArray(sphereVAO);
         glDrawElements(GL_TRIANGLE_STRIP, indexCount, GL_UNSIGNED_INT, 0);
     }

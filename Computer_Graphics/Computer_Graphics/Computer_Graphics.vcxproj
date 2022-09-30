@@ -192,6 +192,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="src\CubeMesh.h" />
     <ClInclude Include="src\QuadMesh.h" />
+    <ClInclude Include="src\ShaderVector.h" />
     <ClInclude Include="src\SkyboxMesh.h" />
     <ClInclude Include="src\SphereMesh.h" />
     <ClInclude Include="src\Test.h" />

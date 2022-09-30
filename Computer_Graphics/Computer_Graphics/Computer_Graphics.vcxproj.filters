@@ -74,6 +74,9 @@
     <Filter Include="Scenes\SceneManager">
       <UniqueIdentifier>{55718645-d7a9-4775-ba69-2e6fad01dc94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shader\Shader Files">
+      <UniqueIdentifier>{6955b3ba-840d-4d0e-8702-f600d029a580}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -204,37 +207,40 @@
     <ClInclude Include="src\SceneManager.h">
       <Filter>Scenes\SceneManager</Filter>
     </ClInclude>
+    <ClInclude Include="src\ShaderVector.h">
+      <Filter>Resource Files\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\fragmentShader.frag">
-      <Filter>Resource Files\Shader</Filter>
-    </None>
-    <None Include="Shader\hdrFragment.frag">
-      <Filter>Resource Files\Shader</Filter>
-    </None>
-    <None Include="Shader\hdrVertex.vert">
-      <Filter>Resource Files\Shader</Filter>
-    </None>
-    <None Include="Shader\vertexShader.vert">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
     <None Include="Shader\fragmentUI.frag">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
-    <None Include="Shader\vertexUI.vert">
-      <Filter>Resource Files\Shader</Filter>
+    <None Include="Shader\hdrFragment.frag">
+      <Filter>Resource Files\Shader\Shader Files</Filter>
+    </None>
+    <None Include="Shader\hdrVertex.vert">
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
     <None Include="Shader\rayMarch.frag">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
     <None Include="Shader\rayMarch.vert">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
     <None Include="Shader\skyBox.frag">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
     <None Include="Shader\skyBox.vert">
-      <Filter>Resource Files\Shader</Filter>
+      <Filter>Resource Files\Shader\Shader Files</Filter>
+    </None>
+    <None Include="Shader\vertexShader.vert">
+      <Filter>Resource Files\Shader\Shader Files</Filter>
+    </None>
+    <None Include="Shader\vertexUI.vert">
+      <Filter>Resource Files\Shader\Shader Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
