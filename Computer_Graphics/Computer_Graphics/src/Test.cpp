@@ -8,7 +8,11 @@
 int arr[20] = {};
 std::vector<int> vec;
 
+<<<<<<< HEAD
 vlr::Camera camera2(glm::vec3(0.0f, 1.0f, 7.0f));
+=======
+vlr::Camera camera2(glm::vec3(0.0f, 1.0f, -7.0f));
+>>>>>>> develop
 SphereMesh sphere;
 
 void foo(int startIdx, int amout, int value) 
@@ -47,7 +51,11 @@ void Test::OnAttach()
 	for (size_t i = 0; i < 20; i++) 
 	{
 		L_TRACE("Arr[{0}] = {1}", i, vec[i]);
+<<<<<<< HEAD
 	}*/
+=======
+	}
+>>>>>>> develop
 
 	normalShader.Compile("Shader/vertexShader.vert", "Shader/fragmentShader.frag");
 	normalShader.Use();
