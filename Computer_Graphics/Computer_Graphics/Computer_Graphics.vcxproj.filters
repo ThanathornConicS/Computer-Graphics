@@ -121,6 +121,12 @@
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Scenes\SceneManager</Filter>
     </ClCompile>
+    <ClCompile Include="src\GeometryBuffer.cpp">
+      <Filter>OpenGL\Framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ShaderManager.cpp">
+      <Filter>CG\ShaderLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -209,6 +215,12 @@
     </ClInclude>
     <ClInclude Include="src\ShaderVector.h">
       <Filter>Resource Files\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GeometryBuffer.h">
+      <Filter>OpenGL\Framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ShaderManager.h">
+      <Filter>CG\ShaderLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
