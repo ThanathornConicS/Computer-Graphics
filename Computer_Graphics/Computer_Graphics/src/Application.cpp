@@ -1,4 +1,5 @@
 #include "pch.h"
+
 #include "Application.h"
 
 #include "RayMarchScene.h"
@@ -19,6 +20,9 @@ namespace vlr
 	{
 		InitWindow();
 
+		m_imguiLayer.SetGLFWwindow(m_systemWindow->GetWindow());
+		m_imguiLayer.Init();
+
 		m_time.time_last = glfwGetTime();
 
 		m_sceneManager = &SceneManager::GetInstance();
@@ -30,14 +34,16 @@ namespace vlr
 	}
 	void Application::Run()
 	{
-		glClearColor(0.6196f, 0.9333f, 0.9451f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_time.ProcessTime(m_systemWindow->GetWindow(), glfwGetTime());
 
 		/* Draw Begin */
 
+		m_imguiLayer.GUI_Begin();
 		m_currentScene->OnUpdate(m_time);
+		m_imguiLayer.GUI_End();
 
 		/* Draw End */
 
@@ -49,6 +55,7 @@ namespace vlr
 	void Application::Clean()
 	{
 		m_currentScene->OnDetach();
+		m_imguiLayer.Terminate();
 	}
 
 #pragma endregion
@@ -63,6 +70,9 @@ namespace vlr
 	void Application::InitWindow()
 	{
 		m_systemWindow = &Window::GetInstance();
+
+		glfwSetFramebufferSizeCallback(m_systemWindow->GetWindow(), FrameBufferSizeCallback);
+
 		if (!m_systemWindow->GetInitStatus())
 			throw std::runtime_error("Cannot initialize window and its context");
 

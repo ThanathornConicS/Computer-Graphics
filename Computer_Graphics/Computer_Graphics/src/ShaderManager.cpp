@@ -1,11 +1,31 @@
+#include <pch.h>
 #include "ShaderManager.h"
 
 namespace vlr
 {
-	ShaderManager::ShaderManager()
-	{}
+	ShaderManager* ShaderManager::s_instance = nullptr;
 
-	void ShaderManager::AddShader(std::string& shaderName, Shader* shaderToAdd)
+	ShaderManager::ShaderManager()
+	{
+		//ScanAllShaderFiles();
+		m_shaders.clear();
+	}
+
+	void ShaderManager::ScanAllShaderFiles()
+	{
+		std::filesystem::path path{ "Shader" };
+		std::vector<std::string> shaderPathStorage;
+		L_SYSTEM_TRACE("Entries:");
+		int count = 1;
+		for (const auto& entry : std::filesystem::directory_iterator(path))
+		{
+			std::string entryPath = (entry.path()).string();
+			shaderPathStorage.push_back(entryPath);
+			L_SYSTEM_TRACE("Entry #{0}: {1}", count, entryPath);
+			count++;
+		}
+	}
+	void ShaderManager::AddShader(const std::string& shaderName, Shader* shaderToAdd)
 	{
 		m_shaders.insert({shaderName, shaderToAdd});
 	}

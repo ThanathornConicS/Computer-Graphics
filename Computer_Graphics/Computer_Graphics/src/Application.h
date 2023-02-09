@@ -4,6 +4,9 @@
 #include "WindowsInput.h"
 #include "Time.h"
 
+#include "imguiLayer.h"
+
+#include "ShaderManager.h"
 #include "SceneManager.h"
 
 namespace vlr
@@ -32,6 +35,8 @@ namespace vlr
 		static Window* m_systemWindow;
 		SceneManager* m_sceneManager;
 		Time m_time;
+
+		ImguiLayer m_imguiLayer;
 
 		Scene* m_currentScene;
 

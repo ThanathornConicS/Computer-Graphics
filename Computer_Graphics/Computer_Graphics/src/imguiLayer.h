@@ -13,11 +13,15 @@ class ImguiLayer
 {
 public:
 	ImguiLayer(void)
-		: m_width(600), m_height(600), m_window(nullptr)
-	{}
-	ImguiLayer(int w, int h, GLFWwindow* win)
-		:m_width(w), m_height(h), m_window(win)
-	{}
+		: m_window(nullptr)
+	{
+		SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
+	ImguiLayer(GLFWwindow* win)
+		: m_window(win)
+	{
+		SetScreenSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+	}
 	~ImguiLayer() {}
 
 	void Init();
@@ -28,6 +32,7 @@ public:
 	void GUI_End();
 
 	void SetScreenSize(int w, int h);
+	void SetGLFWwindow(GLFWwindow* window);
 
 	void SetFunction(_FUNC func);
 	void ResetFunction();

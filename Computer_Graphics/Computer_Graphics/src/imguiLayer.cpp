@@ -80,6 +80,10 @@ void ImguiLayer::SetScreenSize(int w, int h)
 {
 	m_width = w; m_height = h;
 }
+void ImguiLayer::SetGLFWwindow(GLFWwindow* window) 
+{
+	m_window = window;
+}
 
 void ImguiLayer::SetFunction(_FUNC func)
 {

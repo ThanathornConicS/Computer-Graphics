@@ -3,17 +3,20 @@
 
 void HDRBuffer::CreateBuffer()
 {
+    vlr::Window* systemWindowInstance = &vlr::Window::GetInstance();
+    std::pair<int, int> screenSize = systemWindowInstance->GetWindowSize();
+
     glGenFramebuffers(1, &m_framebuffer);
     // create floating point color buffer
     glGenTextures(1, &m_colorBuffer);
     glBindTexture(GL_TEXTURE_2D, m_colorBuffer);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, screenSize.first, screenSize.second, 0, GL_RGBA, GL_FLOAT, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     // create depth buffer (renderbuffer)
     glGenRenderbuffers(1, &m_renderBuffer);
     glBindRenderbuffer(GL_RENDERBUFFER, m_renderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, screenSize.first, screenSize.second);
 
     AttachBuffer();
 }

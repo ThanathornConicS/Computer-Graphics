@@ -38,7 +38,7 @@ struct SphereMesh
 
                     positions.push_back(glm::vec3(xPos, yPos, zPos));
                     uv.push_back(glm::vec2(xSegment, ySegment));
-                    normals.push_back(glm::vec3(xPos, yPos, zPos));
+                    normals.push_back(glm::vec3(-xPos, -yPos, -zPos));
                 }
             }
 

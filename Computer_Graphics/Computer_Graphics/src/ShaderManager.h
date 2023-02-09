@@ -19,7 +19,7 @@ namespace vlr
 		ShaderManager(const ShaderManager& otherInstance) = delete;
 		void operator=(ShaderManager& otherInstance) = delete;
 
-		void AddShader(std::string& shaderName, Shader* shaderToAdd);
+		void AddShader(const std::string& shaderName, Shader* shaderToAdd);
 		void RemoveShader(std::string& shaderNameToRemove);
 
 		Shader* FindShader(std::string shaderNameToFind);
@@ -30,6 +30,8 @@ namespace vlr
 		ShaderManager();
 
 	private:
+		void ScanAllShaderFiles();
+
 		static ShaderManager* s_instance;
 
 		std::unordered_map<std::string, Shader*> m_shaders;

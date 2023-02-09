@@ -1,12 +1,16 @@
 #pragma once
+
+/* Windows OS Platform */
 #include <Windows.h>
 
+/* Standard C/C++ */
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <cstdlib>
 #include <memory>
 #include <crtdbg.h>
+#include <filesystem>
 
 #include <string>
 #include <sstream>
@@ -14,9 +18,12 @@
 #include <cmath>
 #include <fstream>
 
+/* STL Containers */
 #include <vector>
 
+/* Owns Header files */
 #include "Log.h"
+#include "src/Window.h"
 
 #include "src/KeyCode.h"
 

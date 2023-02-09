@@ -4,6 +4,11 @@
 #include "Time.h"
 #include "WindowsInput.h"
 
+#include "GeometryBuffer.h"
+#include "HDRBuffer.h"
+#include "Material.h"
+#include "Light.h"
+
 namespace vlr
 {
 	class Scene
