@@ -48,6 +48,7 @@ void main()
     if(lightType == 0 || lightType == 2)
     {
         lightDir = normalize(light.position - fs_in.FragPos);
+        //lightDir = normalize(fs_in.FragPos - light.position);
         float distance = length(light.position - fs_in.FragPos);
         attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
     }

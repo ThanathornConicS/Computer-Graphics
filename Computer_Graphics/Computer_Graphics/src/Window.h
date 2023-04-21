@@ -6,8 +6,8 @@
 #include <GLFW/glfw3.h>
 
 /* Initial Value */
-static const int width = 800;
-static const int height = 800;
+static const int width = 1280;
+static const int height = 720;
 static const char* name = "Computer_Graphics";
 static const int xpos = 800;
 static const int ypos = 100;

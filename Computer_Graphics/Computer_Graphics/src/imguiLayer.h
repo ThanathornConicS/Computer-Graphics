@@ -31,6 +31,8 @@ public:
 	void GUI_Begin();
 	void GUI_End();
 
+	void RenderDocingSpace();
+
 	void SetScreenSize(int w, int h);
 	void SetGLFWwindow(GLFWwindow* window);
 

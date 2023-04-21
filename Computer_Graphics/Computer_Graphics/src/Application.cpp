@@ -42,6 +42,7 @@ namespace vlr
 		/* Draw Begin */
 
 		m_imguiLayer.GUI_Begin();
+		m_imguiLayer.RenderDocingSpace();
 		m_currentScene->OnUpdate(m_time);
 		m_imguiLayer.GUI_End();
 
