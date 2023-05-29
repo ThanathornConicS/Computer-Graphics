@@ -25,7 +25,7 @@ namespace vlr
 		m_sceneManager->AddScene(new Test());
 		m_sceneManager->AddScene(new RayMarchScene());
 
-		m_currentScene = m_sceneManager->FindScene(0);
+		m_currentScene = m_sceneManager->FindScene(1);
 		m_currentScene->OnAttach();
 	}
 	void Application::Run()
