@@ -52,7 +52,7 @@ namespace vlr
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         glfwMakeContextCurrent(m_window);
-        glfwSwapInterval(0);
+        glfwSwapInterval(1);
         glfwSetInputMode(m_window, GLFW_STICKY_KEYS, GL_TRUE);
         glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         glfwSetWindowPos(m_window, m_xpos, m_ypos);

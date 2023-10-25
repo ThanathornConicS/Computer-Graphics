@@ -10,7 +10,10 @@ namespace vlr
 	Window* Application::m_systemWindow = nullptr;
 
 	Application::Application()
-	{}
+	{
+		m_currentScene = nullptr;
+		m_sceneManager = nullptr;
+	}
 	Application::~Application()
 	{}
 
