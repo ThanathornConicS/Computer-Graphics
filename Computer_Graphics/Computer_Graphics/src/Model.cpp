@@ -60,9 +60,9 @@ namespace vlr
 			else if (strcmp(lineHeader, "f") == 0)
 			{
 				std::string vertex1, vertex2, vertex3;
-				unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-				if (matches != 9)
+				unsigned int vertexIndex[4], uvIndex[4], normalIndex[4];
+				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+				if (matches != 12)
 				{
 					L_SYSTEM_WARN("Model: System does not support this file format for {0}", filepath);
 					fclose(file);
@@ -71,12 +71,15 @@ namespace vlr
 				vertexIndices.push_back(vertexIndex[0]);
 				vertexIndices.push_back(vertexIndex[1]);
 				vertexIndices.push_back(vertexIndex[2]);
+				vertexIndices.push_back(vertexIndex[3]);
 				uvIndices.push_back(uvIndex[0]);
 				uvIndices.push_back(uvIndex[1]);
 				uvIndices.push_back(uvIndex[2]);
+				uvIndices.push_back(uvIndex[3]);
 				normalIndices.push_back(normalIndex[0]);
 				normalIndices.push_back(normalIndex[1]);
 				normalIndices.push_back(normalIndex[2]);
+				normalIndices.push_back(normalIndex[3]);
 			}
 			else
 			{
@@ -101,9 +104,9 @@ namespace vlr
 			glm::vec2 uv = temp_uvs[uvIndex - 1];
 			glm::vec3 normal = temp_normals[normalIndex - 1];
 
-			model_vertices.push_back(vertex.x); model_vertices.push_back(vertex.y); model_vertices.push_back(vertex.z);
-			model_vertices.push_back(uv.x); model_vertices.push_back(uv.y);
-			model_vertices.push_back(normal.x); model_vertices.push_back(normal.y); model_vertices.push_back(normal.z);
+			model_vertices.push_back(vertex.x);		model_vertices.push_back(vertex.y); model_vertices.push_back(vertex.z);
+			model_vertices.push_back(uv.x);			model_vertices.push_back(uv.y);
+			model_vertices.push_back(normal.x);		model_vertices.push_back(normal.y); model_vertices.push_back(normal.z);
 		}
 
 		fclose(file);
