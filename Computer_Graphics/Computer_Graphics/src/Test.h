@@ -2,6 +2,8 @@
 
 #include "Scene.h"
 
+#include "Model.h"
+
 class Test : public vlr::Scene
 {
 public:
@@ -24,5 +26,6 @@ private:
 
 	float m_exposure = 1.0f;
 
+	vlr::Model m_model;
 };
 

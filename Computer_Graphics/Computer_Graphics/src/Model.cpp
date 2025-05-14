@@ -61,25 +61,38 @@ namespace vlr
 			{
 				std::string vertex1, vertex2, vertex3;
 				unsigned int vertexIndex[4], uvIndex[4], normalIndex[4];
-				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-				if (matches != 12)
+				int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2], &vertexIndex[3], &uvIndex[3], &normalIndex[3]);
+				if (matches == 12)
 				{
-					L_SYSTEM_WARN("Model: System does not support this file format for {0}", filepath);
-					fclose(file);
-					return;
+					isQuad = true;
+
+					vertexIndices.push_back(vertexIndex[0]);
+					vertexIndices.push_back(vertexIndex[1]);
+					vertexIndices.push_back(vertexIndex[2]);
+					vertexIndices.push_back(vertexIndex[3]);
+					uvIndices.push_back(uvIndex[0]);
+					uvIndices.push_back(uvIndex[1]);
+					uvIndices.push_back(uvIndex[2]);
+					uvIndices.push_back(uvIndex[3]);
+					normalIndices.push_back(normalIndex[0]);
+					normalIndices.push_back(normalIndex[1]);
+					normalIndices.push_back(normalIndex[2]);
+					normalIndices.push_back(normalIndex[3]);
 				}
-				vertexIndices.push_back(vertexIndex[0]);
-				vertexIndices.push_back(vertexIndex[1]);
-				vertexIndices.push_back(vertexIndex[2]);
-				vertexIndices.push_back(vertexIndex[3]);
-				uvIndices.push_back(uvIndex[0]);
-				uvIndices.push_back(uvIndex[1]);
-				uvIndices.push_back(uvIndex[2]);
-				uvIndices.push_back(uvIndex[3]);
-				normalIndices.push_back(normalIndex[0]);
-				normalIndices.push_back(normalIndex[1]);
-				normalIndices.push_back(normalIndex[2]);
-				normalIndices.push_back(normalIndex[3]);
+				else if (matches == 9) 
+				{
+					isQuad = false;
+
+					vertexIndices.push_back(vertexIndex[0]);
+					vertexIndices.push_back(vertexIndex[1]);
+					vertexIndices.push_back(vertexIndex[2]);
+					uvIndices.push_back(uvIndex[0]);
+					uvIndices.push_back(uvIndex[1]);
+					uvIndices.push_back(uvIndex[2]);
+					normalIndices.push_back(normalIndex[0]);
+					normalIndices.push_back(normalIndex[1]);
+					normalIndices.push_back(normalIndex[2]);
+				}
 			}
 			else
 			{
@@ -111,8 +124,157 @@ namespace vlr
 
 		fclose(file);
 	}
+	void Model::_ImportModel(std::string& filepath)
+	{
+		std::vector<std::string> modelDataFromFile;
 
-	void Model::Render()
+		L_SYSTEM_TRACE("Model: Loading {0}", filepath);
+
+		std::ifstream file(filepath);
+		if (!file.is_open())
+			throw std::runtime_error("Error: Model Cannot Be Load.");
+
+		std::vector<uint32_t> vertexIndices, uvIndices, normalIndices;
+		std::vector<glm::vec3> temp_vertices;
+		std::vector<glm::vec3> temp_normals;
+		std::vector<glm::vec2> temp_uvs;
+
+		std::string line;
+		while (std::getline(file, line))
+		{
+			modelDataFromFile.push_back(line);
+		}
+		file.close();
+
+		std::vector<std::string> datum;
+		for (auto& line : modelDataFromFile)
+		{
+			datum.clear();
+
+			std::stringstream strStream(line);
+			std::string word;
+			while (std::getline(strStream, word, ' '))
+			{
+				datum.push_back(word);
+			}
+
+			if (datum[0] == "v")
+			{
+				float x, y, z;
+
+				x = std::stof(datum[1]);
+				y = std::stof(datum[2]);
+				z = std::stof(datum[3]);
+
+				glm::vec3 vertex(x, y, z);
+				temp_vertices.push_back(vertex);
+
+				hasVertices = true;
+			}
+			else if (datum[0] == "vt")
+			{
+				float u, v;
+
+				u = std::stof(datum[1]);
+				v = std::stof(datum[2]);
+
+				glm::vec2 uv(u, v);
+				temp_uvs.push_back(uv);
+
+				hasUVs = true;
+			}
+			else if (datum[0] == "vn")
+			{
+				float x, y, z;
+
+				x = std::stof(datum[1]);
+				y = std::stof(datum[2]);
+				z = std::stof(datum[3]);
+
+				glm::vec3 normal(x, y, z);
+				temp_normals.push_back(normal);
+
+				hasNormals = true;
+			}
+			else if (datum[0] == "f")
+			{
+				std::vector<int> faceIndices;
+				for (auto it = datum.begin() + 1; it != datum.end(); it++)
+				{
+					std::stringstream datumStream(*it);
+					std::string faceIndex;
+					while (std::getline(datumStream, faceIndex, '/'))
+					{
+						faceIndices.push_back(std::stoi(faceIndex));
+					}
+				}
+
+				if (datum.size() - 1 == 3)
+				{
+					isQuad = false;
+
+					vertexIndices.push_back(faceIndices[0]);
+					uvIndices.push_back(faceIndices[1]);
+					normalIndices.push_back(faceIndices[2]);
+
+					vertexIndices.push_back(faceIndices[3]);
+					uvIndices.push_back(faceIndices[4]);
+					normalIndices.push_back(faceIndices[5]);
+
+					vertexIndices.push_back(faceIndices[6]);
+					uvIndices.push_back(faceIndices[7]);
+					normalIndices.push_back(faceIndices[8]);
+				}
+				else if (datum.size() - 1 == 4)
+				{
+					isQuad = true;
+
+					vertexIndices.push_back(faceIndices[0]);
+					uvIndices.push_back(faceIndices[1]);
+					normalIndices.push_back(faceIndices[2]);
+
+					vertexIndices.push_back(faceIndices[3]);
+					uvIndices.push_back(faceIndices[4]);
+					normalIndices.push_back(faceIndices[5]);
+
+					vertexIndices.push_back(faceIndices[6]);
+					uvIndices.push_back(faceIndices[7]);
+					normalIndices.push_back(faceIndices[8]);
+
+					vertexIndices.push_back(faceIndices[9]);
+					uvIndices.push_back(faceIndices[10]);
+					normalIndices.push_back(faceIndices[11]);
+				}
+			}
+		}
+
+		std::vector<GLfloat> newData;
+		for (unsigned int i = 0; i < vertexIndices.size(); i++)
+		{
+			if (hasVertices)
+			{
+				unsigned int vertexIndex = vertexIndices[i];
+				glm::vec3 vertex = temp_vertices[vertexIndex - 1];
+				newData.push_back(vertex.x);	newData.push_back(vertex.y);	newData.push_back(vertex.z);
+			}
+
+			if (hasUVs)
+			{
+				unsigned int uvIndex = uvIndices[i];
+				glm::vec2 uv = temp_uvs[uvIndex - 1];
+				newData.push_back(uv.x);		newData.push_back(uv.y);
+			}
+
+			if (hasNormals)
+			{
+				unsigned int normalIndex = normalIndices[i];
+				glm::vec3 normal = temp_normals[normalIndex - 1];
+				newData.push_back(normal.x);	newData.push_back(normal.y);	newData.push_back(normal.z);
+			}
+		}
+	}
+
+	void Model::GenerateVAO()
 	{
 		if (modelVAO == 0)
 		{
@@ -129,7 +291,16 @@ namespace vlr
 			glEnableVertexAttribArray(2);
 			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(5 * sizeof(float)));
 		}
+	}
+
+	void Model::Render()
+	{
+		GenerateVAO();
 		glBindVertexArray(modelVAO);
-		glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model_vertices.size()));
+
+		if(isQuad)
+			glDrawArrays(GL_QUADS, 0, static_cast<GLsizei>(model_vertices.size()));
+		else
+			glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(model_vertices.size()));
 	}
 }

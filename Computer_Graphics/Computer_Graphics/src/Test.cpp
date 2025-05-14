@@ -65,6 +65,8 @@ void Test::OnAttach()
 	m_normalShader.Use();
 
 	m_hdrBuffer.CreateBuffer();
+
+	m_model.ImportModel("C:/Users/laptop/Desktop/FusionMeshes/sample/1 - f/conformedmesh.obj");
 }
 void Test::OnDetach()
 {}
@@ -123,7 +125,7 @@ void Test::OnUpdate(vlr::Time time)
 		ImGui::ColorEdit3("Ambient", material.ambient);
 		ImGui::ColorEdit3("Diffuse", material.diffuse);
 		ImGui::ColorEdit3("Specular", material.specular);
-		ImGui::SliderFloat("Shininess", &material.shininess, 0.0f, 1.0f, "%.5f");
+		ImGui::SliderFloat("Shininess", &material.shininess, 0.0f, 64.0f, "%.5f");
 		ImGui::NewLine();
 
 		ImGui::Text("Light Properties");
@@ -173,7 +175,7 @@ void Test::OnUpdate(vlr::Time time)
 	m_normalShader.SetMat4("model", model);
 
 	// Render object
-	sphere.Render();
+	m_model.Render();
 
 	m_normalShader.SetVec3("material.ambient",glm::vec3(1.0f));
 	m_normalShader.SetVec3("material.diffuse", glm::vec3(1.0f));
